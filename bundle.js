@@ -67,9 +67,11 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
 __webpack_require__(1);
 document.write(__webpack_require__(6));
-
 
 /***/ }),
 /* 1 */
@@ -667,10 +669,12 @@ module.exports = function (css) {
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = "It works from content.js.";
-
 
 /***/ })
 /******/ ]);
