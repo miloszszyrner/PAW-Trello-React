@@ -1,5 +1,5 @@
 require("./style.css");
-//document.write(require("./content.js"));
+document.write(require("./newBoard.js"));
 import React from "react";
 import { render } from "react-dom";
 import $ from "jquery";
@@ -14,11 +14,12 @@ class Test extends React.Component {
     }
   render() {
     var aaa = 'test';
-    const dUrl = "http://jsonplaceholder.typicode.com/posts";
+    const dUrl = "http://localhost:9080/myapp/boards/all";
     var result = 'hmm';
 $.ajax(
    {
      url: dUrl,
+
      success: function(result){
          //console.log(result);
          this.setState({data: result});
@@ -31,10 +32,8 @@ return (
 
            return (
               <tr key = {key}>
-                  <td>{item.userId}</td>
                   <td>{item.id}</td>
-                  <td>{item.title}</td>
-                  <td>{item.body}</td>
+                  <td>{item.name}</td>
               </tr>
             )
 
