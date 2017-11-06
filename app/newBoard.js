@@ -1,9 +1,5 @@
-//require("./style.css");
-
 import React from "react";
 import { render } from "react-dom";
-//import $ from "jquery";
-
 
 class AddForm extends React.Component {
   constructor(props) {

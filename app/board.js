@@ -23,8 +23,6 @@ class App extends React.Component {
           }
         ]
       }
-      var a = "test";
-      console.log(data);
         return  <Board
                         data={data}
                         draggable
