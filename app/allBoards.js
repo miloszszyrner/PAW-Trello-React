@@ -11,7 +11,7 @@ class AllBoards extends React.Component {
 
     }
   render() {
-    const dUrl = "http://localhost:9080/myapp/boards/all";
+    const dUrl = "http://localhost:9080/myapp/boards";
     var result = '';
 $.ajax(
    {

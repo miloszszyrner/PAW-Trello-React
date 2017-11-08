@@ -1,6 +1,7 @@
 import React from 'react';
 import Board from 'react-trello';
 import { render } from "react-dom";
+import $ from "jquery";
 
 var data = {
   lanes: [
@@ -22,23 +23,6 @@ var data = {
   ]
 }
 
-const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-    console.log('drag ended')
-    console.log(`cardId: ${cardId}`)
-    console.log(`sourceLaneId: ${sourceLaneId}`)
-    console.log(`targetLaneId: ${targetLaneId}`)
-    console.log(data.lanes[0].id);
-//     data.lanes.forEach(function(element) {
-//       data.lanes[1].label = "test";
-//       console.log(  data.lanes[1].id);
-//       if(element.id == targetLaneId) {
-//         console.log(element);
-//         this.forceUpdate();
-//       }
-//
-// });
-}
-
 class App extends React.Component {
   constructor(){
       super()
@@ -49,29 +33,33 @@ class App extends React.Component {
   render() {
     const dUrl = "http://localhost:9080/myapp/boards/3/rolls";
     var result = '';
-$.ajax(
-   {
-     url: dUrl,
+    $.ajax(
+       {
+         url: dUrl,
 
-     success: function(result){
-         //console.log(result);
-         this.setState({data: result});
-         data.lanes[0].id = this.state.data.id;
-         data.lanes[0].title = this.state.data.name;
-         data.lanes[0].cards[0].id = this.state.data.cards[0].id;
-         data.lanes[0].cards[0].title = this.state.data.cards[0].title;
-         data.lanes[0].cards[1].id = this.state.data.cards[1].id;
-         data.lanes[0].cards[1].title = this.state.data.cards[1].title;
-     }.bind(this)
-   }
-);
+         success: function(result){
+             //onsole.log(result[0].boardId);
+             this.setState({data: result});
+             data.lanes[0].id = this.state.data[0].boardId;
+             data.lanes[0].title = this.state.data[0].name;
+             data.lanes[0].label = "label";
+             data.lanes[0].cards[0].id = this.state.data[0].cards[0].id;
+             data.lanes[0].cards[0].title = this.state.data[0].cards[0].title;
+             data.lanes[0].cards[0].description = "description";
+             data.lanes[0].cards[0].label = "label";
+             data.lanes[0].cards[1].id = this.state.data[0].cards[1].id;
+             data.lanes[0].cards[1].title = this.state.data[0].cards[1].title;
+             data.lanes[0].cards[1].description = "description";
+             data.lanes[0].cards[1].label = "label";
+         }.bind(this)
+       }
+    );
 
-        return  <Board
-                        data={data}
-                        draggable
-                        handleDragEnd = {handleDragEnd}
-                 />
-}
+    return  <Board
+                    data={data}
+                    draggable
+             />
+     }
 }
 
 render(<App />, document.getElementById('board'));
