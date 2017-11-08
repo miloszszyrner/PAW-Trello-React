@@ -66,15 +66,12 @@ $.ajax(
    }
 );
 
-
-    render() {
-
         return  <Board
                         data={data}
                         draggable
                         handleDragEnd = {handleDragEnd}
                  />
-    }
+}
 }
 
 render(<App />, document.getElementById('board'));
