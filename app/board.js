@@ -21,6 +21,13 @@ var data = {
   ]
 }
 
+const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
+    console.log('drag ended')
+    console.log(`cardId: ${cardId}`)
+    console.log(`sourceLaneId: ${sourceLaneId}`)
+    console.log(`targetLaneId: ${targetLaneId}`)
+}
+
 class App extends React.Component {
   constructor(){
       super()
@@ -67,6 +74,7 @@ class App extends React.Component {
       <Board
                       data={this.state}
                       draggable
+                      handleDragEnd={handleDragEnd}
                />
 
     )
