@@ -1,4 +1,5 @@
 require("./style.css");
-document.write(require("./newBoard.js"));
-document.write(require("./board.js"));
-document.write(require("./allBoards.js"));
+import App from "./board.js";
+import AllBoards from "./allBoards.js";
+import AddForm from "./newBoard.js";
+//import Choose from "./chooseBoard.js";

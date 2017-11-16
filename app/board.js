@@ -6,17 +6,11 @@ import $ from "jquery";
 var data = {
   lanes: [
     {
-      id: 'lane1',
-      title: 'Planned Tasks',
+      id: '',
+      title: '',
       cards: [
-        {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
-        {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
+        {id: '', title: '', description: ''},
       ]
-    },
-    {
-      id: 'lane2',
-      title: 'Completed',
-      cards: []
     }
   ]
 }
@@ -34,49 +28,47 @@ class App extends React.Component {
         this.state = {
           lanes: [
             {
-              id: 'lane1',
-              title: 'Planned Tasks',
+              id: '',
+              title: '',
               cards: [
-                {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
-                {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
+                {id: '', title: '', description: ''},
               ]
-            },
-            {
-              id: 'lane2',
-              title: 'Completed',
-              cards: []
             }
           ]
         }
     }
+
   render() {
-    const dUrl = "http://localhost:9080/myapp/boards/1/rolls";
+    var dUrl = "http://localhost:9080/myapp/boards/";
+    dUrl += window.location.href.substring(window.location.href.length - 1);
+    dUrl += "/rolls";
+    console.log(dUrl);
     var result = '';
     $.ajax(
        {
          url: dUrl,
 
          success: function(result){
-             console.log(result[0].boardId);
-
-             this.state.lanes[0].id = result[0].boardId.toString();
-             this.state.lanes[0].title = result[0].title;
-             this.state.lanes[0].cards[0].id = result[0].cards[0].id.toString();
-             this.state.lanes[0].cards[0].title = result[0].cards[0].title;
-             this.state.lanes[0].cards[0].description = "description";
-             this.setState({ data: {data} });
+             console.log(this.state);
+             for (var i = 0; i < result.length; i++) {
+               this.state.lanes[i].id = result[i].boardId.toString();
+               this.state.lanes[i].title = result[i].title;
+               for (var j = 0; j < result[i].cards.length; j++) {
+                 this.state.lanes[i].cards[j].id = result[i].cards[j].id.toString();
+                 this.state.lanes[i].cards[j].title = result[i].cards[j].title;
+                 this.state.lanes[i].cards[j].description = "description";
+               }
+             }
+             this.setState({ data: result });
          }.bind(this)
        }
     );
-
     return (
-
       <Board
                       data={this.state}
                       draggable
                       handleDragEnd={handleDragEnd}
                />
-
     )
      }
 }
