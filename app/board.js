@@ -42,7 +42,7 @@ class App extends React.Component {
     var dUrl = "http://localhost:9080/myapp/boards/";
     dUrl += window.location.href.substring(window.location.href.length - 1);
     dUrl += "/rolls";
-    console.log(dUrl);
+    //console.log(dUrl);
     var result = '';
     $.ajax(
        {
