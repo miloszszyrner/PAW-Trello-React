@@ -49,7 +49,9 @@ class App extends React.Component {
           ]
         }
         this.addList = this.addList.bind(this);
+        this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
     }
+
 
 
   render() {
@@ -76,7 +78,7 @@ class App extends React.Component {
 
     return (
       <div className="App-intro">
-                    <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this. handleNameOfListChange} />
+                    <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
                     <button onClick={this.addList} style={{margin: 5}}>
                     Add List
                     </button>
@@ -97,7 +99,7 @@ class App extends React.Component {
          //nextState.push();
          this.setState(nextState);
      }
-     handleNameOfListChange() {
+     handleNameOfListChange(e) {
        this.setState({name: e.target.value});
      }
 
