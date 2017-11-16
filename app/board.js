@@ -48,10 +48,15 @@ class App extends React.Component {
             }
           ]
         }
+        this.addList = this.addList.bind(this);
     }
+
+
   render() {
-    const dUrl = "http://localhost:9080/myapp/boards/1/rolls";
+
+    /*const dUrl = "http://localhost:9080/myapp/boards/1/rolls";
     var result = '';
+
     $.ajax(
        {
          url: dUrl,
@@ -67,18 +72,35 @@ class App extends React.Component {
              this.setState({ data: {data} });
          }.bind(this)
        }
-    );
+    );*/
 
     return (
-
+      <div className="App-intro">
+                    <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this. handleNameOfListChange} />
+                    <button onClick={this.addList} style={{margin: 5}}>
+                    Add List
+                    </button>
       <Board
                       data={this.state}
                       draggable
                       handleDragEnd={handleDragEnd}
                />
 
+        </div>
     )
      }
+     addList() {
+         var nextState = this.state.lanes;
+         nextState.push ({id:"lane"+(this.state.lanes.length+1),
+         title: this.state.name,
+         cards: []});
+         //nextState.push();
+         this.setState(nextState);
+     }
+     handleNameOfListChange() {
+       this.setState({name: e.target.value});
+     }
+
 }
 
 render(<App />, document.getElementById('board'));
