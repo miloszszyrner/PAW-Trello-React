@@ -1,6 +1,5 @@
 import React from 'react';
 import Board from 'react-trello';
-import { render } from "react-dom";
 
 class Choose extends React.Component {
   constructor(){
@@ -22,4 +21,4 @@ class Choose extends React.Component {
      }
 }
 
-render(<Choose />, document.getElementById('choose'));
+export default Choose;

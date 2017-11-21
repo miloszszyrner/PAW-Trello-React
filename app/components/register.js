@@ -1,7 +1,6 @@
 import React from "react";
-import { render } from "react-dom";
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
   super(props);
   this.handleName = this.handleName.bind(this);
@@ -25,7 +24,7 @@ render() {
   <form className="form">
     <input  className="notes" placeholder="Name" value={this.state.name} onChange={(e) => this.handleName(e)}></input><br/>
     <input  className="notes" placeholder="password" value={this.state.password} onChange={(e) => this.handlePassword(e)}></input><br/>
-    <button className="submit" type="button" onClick={this.handleSubmit}>Log in</button>
+    <button className="submit" type="button" onClick={this.handleSubmit}>Sign in</button>
   </form>
  );
 }
@@ -43,4 +42,4 @@ render() {
  }
 }
 
-render(<Login />, document.getElementById('login'));
+export default Register;

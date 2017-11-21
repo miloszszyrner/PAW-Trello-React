@@ -1,6 +1,5 @@
 import React from 'react';
 import Board from 'react-trello';
-import { render } from "react-dom";
 import $ from "jquery";
 
 var data = {
@@ -73,4 +72,4 @@ class App extends React.Component {
      }
 }
 
-render(<App />, document.getElementById('board'));
+export default App;

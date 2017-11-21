@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import $ from "jquery";
 
 class AllBoards extends React.Component {
@@ -40,4 +39,4 @@ return (
   }
 }
 
-render(<AllBoards />, document.getElementById('root'));
+export default AllBoards;

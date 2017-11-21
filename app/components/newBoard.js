@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 
 class AddForm extends React.Component {
   constructor(props) {
@@ -46,4 +45,4 @@ render() {
  }
 }
 
-render(<AddForm />, document.getElementById('newBoard'));
+export default AddForm;
