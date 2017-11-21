@@ -31,7 +31,7 @@ render() {
  );
 }
  handleSubmit() {
-   fetch('http://localhost:9080/myapp/boards/board', {
+   fetch('http://localhost:9080/myapp/10000/boards', {
      method: 'POST',
      headers: {
        'Content-Type': 'application/json'
