@@ -10,6 +10,7 @@ import Register from "./register.js";
 
 class RouterLinks extends React.Component {
   render() {
+    var roll = "1";
     return (
       <Router>
         <div className='container'>

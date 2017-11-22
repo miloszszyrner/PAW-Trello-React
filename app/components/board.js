@@ -35,13 +35,13 @@ class App extends React.Component {
             }
           ]
         }
+        console.log(this);
     }
 
   render() {
     var dUrl = "http://localhost:9080/myapp/boards/";
-    dUrl += window.location.href.substring(window.location.href.length - 1);
+    dUrl += this.props.location.pathname.substring("board/");
     dUrl += "/rolls";
-    //console.log(dUrl);
     var result = '';
     $.ajax(
        {
