@@ -1,8 +1,8 @@
 import React from 'react';
 import Board from 'react-trello';
 import { render } from "react-dom";
-import $ from "jquery";
-
+//import $ from "jquery";
+var idOfLane;
 var data = {
   lanes: [
     {
@@ -28,6 +28,14 @@ const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
     console.log(`targetLaneId: ${targetLaneId}`)
 }
 
+const onLaneClick = (laneId) => {
+  idOfLane=laneId;
+//  $('#laneId').val(laneId);
+//  $('#myModal').modal('show');
+    console.log(`laneId: ${laneId}`)
+
+}
+
 class App extends React.Component {
   constructor(){
       super()
@@ -40,6 +48,7 @@ class App extends React.Component {
                 {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
                 {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
               ]
+
             },
             {
               id: 'lane2',
@@ -49,6 +58,7 @@ class App extends React.Component {
           ]
         }
         this.addList = this.addList.bind(this);
+        this.removeList = this.removeList.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
     }
 
@@ -82,27 +92,44 @@ class App extends React.Component {
                     <button onClick={this.addList} style={{margin: 5}}>
                     Add List
                     </button>
+                    <button onClick={this.removeList} style={{margin: 5}}>
+                    Remove List
+                    </button>
       <Board
                       data={this.state}
                       draggable
                       handleDragEnd={handleDragEnd}
+                      onLaneClick={onLaneClick}
                />
 
         </div>
     )
      }
      addList() {
-         var nextState = this.state.lanes;
-         nextState.push ({id:"lane"+(this.state.lanes.length+1),
+        // var nextState = this.state.lanes;
+         this.state.lanes.push ({id:"lane"+(this.state.lanes.length+1),
          title: this.state.name,
          cards: []});
          //nextState.push();
-         this.setState(nextState);
+         this.setState(this.state.lanes);
      }
      handleNameOfListChange(e) {
        this.setState({name: e.target.value});
      }
+     removeList(){
+       var nextState = this.state.lanes;
+       for(var i=0;i<nextState.length;i++){
+          if(nextState[i].id==idOfLane){
+            nextState.splice (i,1);
+          }
+       }
 
+
+       this.setState(nextState);
+     }
+     test(){
+      alert();
+    }
 }
 
 render(<App />, document.getElementById('board'));
