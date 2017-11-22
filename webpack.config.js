@@ -2,7 +2,8 @@ module.exports = {
     entry: "./app",
     output: {
         path: __dirname,
-        filename: "bundle.js"
+        filename: "bundle.js",
+        publicPath: '/'
     },
     module: {
         loaders: [
@@ -23,5 +24,8 @@ module.exports = {
               }
             }
         ],
+    },
+    devServer: {
+      historyApiFallback: true,
     }
 };
