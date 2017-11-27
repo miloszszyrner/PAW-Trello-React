@@ -4,8 +4,8 @@ import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import AddForm from "./newBoard.js";
 import App from "./board";
 import AllBoards from "./allBoards.js";
-import Login from "./login.js";
-import Register from "./register.js";
+import Login from "./loginUser.js";
+import Register from "./registerUser.js";
 // import Choose from "./chooseBoard.js";
 
 class RouterLinks extends React.Component {
