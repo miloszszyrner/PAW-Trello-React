@@ -3,6 +3,7 @@ import Board from 'react-trello';
 import { render } from "react-dom";
 //import $ from "jquery";
 var idOfLane;
+var idOfCard;
 var data = {
   lanes: [
     {
@@ -35,6 +36,16 @@ const onLaneClick = (laneId) => {
     console.log(`laneId: ${laneId}`)
 
 }
+const onCardClick = (cardId,metadata,laneId) => {
+  idOfCard=cardId;
+  idOfLane=laneId
+  $('#cardId').val(cardId);
+  $('#myModal2').modal('show');
+    console.log(`laneId: ${laneId}`)
+    console.log(`CardId: ${cardId}`)
+
+
+}
 
 class App extends React.Component {
   constructor(){
@@ -59,6 +70,7 @@ class App extends React.Component {
         }
         this.addList = this.addList.bind(this);
         this.removeList = this.removeList.bind(this);
+        this.removeCard = this.removeCard.bind(this);
         this.addCard = this.addCard.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
     }
@@ -94,8 +106,7 @@ class App extends React.Component {
                     Add List
                     </button>
                     <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
+                    <div class="modal-dialog">                      <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
 
@@ -110,12 +121,34 @@ class App extends React.Component {
                       </div>
 
                     </div>
+
                   </div>
+                  <div class="modal fade" id="myModal2" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" id="laneId"/>
+
+                          <button type="button" class="btn btn-danger" data-dismiss="modal" onClick={this.removeCard}>Remove Card</button>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
       <Board
                       data={this.state}
                       draggable
                       handleDragEnd={handleDragEnd}
                       onLaneClick={onLaneClick}
+                      onCardClick={onCardClick}
+
                />
 
         </div>
@@ -129,9 +162,12 @@ class App extends React.Component {
             nextState2.push ({id:"Card"+(this.state.lanes[i].cards.length+1+"."+i),
             title: "Card"+(this.state.lanes[i].cards.length+1+"."+i)});
 
+
           }
+
         }
          //nextState.push();
+
          this.setState(this.state.lanes);
      }
      addList() {
@@ -151,6 +187,17 @@ class App extends React.Component {
           if(nextState[i].id==idOfLane){
             nextState.splice (i,1);
           }
+       }
+       this.setState(nextState);
+     }
+       removeCard(){
+         var nextState = this.state.lanes;
+        for(var i=0;i<nextState.length;i++){
+           for(var y=0;y<nextState[i].cards.length;y++)
+            if(nextState[i].cards[y].id==idOfCard){
+              nextState[i].cards.splice (y,1);
+            }
+
        }
 
 
