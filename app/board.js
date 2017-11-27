@@ -30,8 +30,8 @@ const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
 
 const onLaneClick = (laneId) => {
   idOfLane=laneId;
-//  $('#laneId').val(laneId);
-//  $('#myModal').modal('show');
+  $('#laneId').val(laneId);
+  $('#myModal').modal('show');
     console.log(`laneId: ${laneId}`)
 
 }
@@ -59,6 +59,7 @@ class App extends React.Component {
         }
         this.addList = this.addList.bind(this);
         this.removeList = this.removeList.bind(this);
+        this.addCard = this.addCard.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
     }
 
@@ -92,9 +93,24 @@ class App extends React.Component {
                     <button onClick={this.addList} style={{margin: 5}}>
                     Add List
                     </button>
-                    <button onClick={this.removeList} style={{margin: 5}}>
-                    Remove List
-                    </button>
+                    <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+                        <div class="modal-body">
+                          <input type="hidden" id="laneId"/>
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onClick={this.removeList}>Remove List</button>
+                              <button type="button" class="btn btn-success" data-dismiss="modal" onClick={this.addCard}>Add new card</button>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
       <Board
                       data={this.state}
                       draggable
@@ -104,6 +120,19 @@ class App extends React.Component {
 
         </div>
     )
+     }
+     addCard() {
+       var nextState = this.state.lanes;
+       for(var i=0;i<nextState.length;i++){
+          if(nextState[i].id==idOfLane){
+            var nextState2 = this.state.lanes[i].cards;
+            nextState2.push ({id:"Card"+(this.state.lanes[i].cards.length+1+"."+i),
+            title: "Card"+(this.state.lanes[i].cards.length+1+"."+i)});
+
+          }
+        }
+         //nextState.push();
+         this.setState(this.state.lanes);
      }
      addList() {
         // var nextState = this.state.lanes;
@@ -127,9 +156,6 @@ class App extends React.Component {
 
        this.setState(nextState);
      }
-     test(){
-      alert();
-    }
 }
 
 render(<App />, document.getElementById('board'));
