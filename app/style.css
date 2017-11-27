@@ -1,3 +1,22 @@
 body {
   background: dodgerBlue;
 }
+#login, #register{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+.nav {
+  display: flex;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.nav li {
+  margin-right: 30px;
+}

@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 
 class AddForm extends React.Component {
   constructor(props) {
@@ -26,7 +25,7 @@ render() {
    <h4>Create Board</h4>
     Board Name:<br/>
     <input  className="notes" placeholder="Board Name" value={this.state.boardName} onChange={(e) => this.handleBoardName(e)}></input><br/>
-    <button className="submit" type="button" onClick={this.handleSubmit}>Submit</button>
+    <button className="submit" type="button" onClick={this.handleSubmit}>Add</button>
   </form>
  );
 }
@@ -46,4 +45,4 @@ render() {
  }
 }
 
-render(<AddForm />, document.getElementById('newBoard'));
+export default AddForm;
