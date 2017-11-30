@@ -167,7 +167,6 @@ class App extends React.Component {
 
         }
          //nextState.push();
-
          this.setState(this.state.lanes);
      }
      addList() {

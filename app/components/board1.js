@@ -21,7 +21,7 @@ const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
     console.log(`targetLaneId: ${targetLaneId}`)
 }
 
-class App extends React.Component {
+class App1 extends React.Component {
   constructor(){
       super()
         this.state = {
@@ -72,4 +72,4 @@ class App extends React.Component {
      }
 }
 
-export default App;
+export default App1;

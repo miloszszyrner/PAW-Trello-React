@@ -2,7 +2,8 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import AddForm from "./newBoard.js";
-import App from "./board1";
+import App from "./board";
+import App1 from "./board1";
 import AllBoards from "./allBoards.js";
 import Login from "./loginUser.js";
 import Register from "./registerUser.js";
@@ -41,8 +42,9 @@ class RouterLinks extends React.Component {
               </Link>
             </li>
           </ul>
+          <Route exact path='/board/' component={App} />
           <Route exact path='/allboards/:id' component={AllBoards} />
-          <Route exact path='/board/:userid/:id' component={App} />
+          <Route exact path='/board/:userid/:id' component={App1} />
           <Route exact path='/addboard' component={AddForm} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
