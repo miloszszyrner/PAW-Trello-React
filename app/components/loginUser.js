@@ -45,6 +45,11 @@ render() {
      if (response.ok) {
        response.json().then(json => {
          console.log(json);
+         var address = "/allboards/";
+         address += json.id;
+         console.log(address);
+         this.props.history.push(address);
+
        });
      }
    });

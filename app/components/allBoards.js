@@ -1,5 +1,6 @@
 import React from "react";
 import $ from "jquery";
+import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class AllBoards extends React.Component {
   constructor(){
@@ -7,10 +8,13 @@ class AllBoards extends React.Component {
         this.state = {
           data: []
         }
-
+console.log(this);
     }
   render() {
-    const dUrl = "http://localhost:9080/myapp/boards";
+
+    var dUrl = "http://localhost:9080/myapp/";
+    dUrl += this.props.match.params.id;
+    dUrl += "/boards"
     var result = '';
 $.ajax(
    {
@@ -25,11 +29,13 @@ $.ajax(
 return (
   <table>
     <tbody>{this.state.data.map(function(item, key) {
-
            return (
               <tr key = {key}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
+                  <td>
+                    <Link to={`/board/${item.userId}/${item.id}`}>
+                      {item.name}
+                    </Link>
+                  </td>
               </tr>
             )
 
