@@ -16,27 +16,27 @@ class RouterLinks extends React.Component {
         <div className='container'>
           <ul className='nav'>
             <li>
-              <Link exact activeClassName='active' to='/allboards'>
+              <Link to='/allboards'>
                 AllBoards
               </Link>
             </li>
             <li>
-              <Link exact activeClassName='active' to='/board'>
+              <Link to='/board'>
                 board
               </Link>
             </li>
             <li>
-              <Link exact activeClassName='active' to='/addboard'>
+              <Link to='/addboard'>
                 Add Board
               </Link>
             </li>
             <li>
-              <Link exact activeClassName='active' to='/login'>
+              <Link to='/login'>
                 login
               </Link>
             </li>
             <li>
-              <Link exact activeClassName='active' to='/register'>
+              <Link to='/register'>
                 register
               </Link>
             </li>
