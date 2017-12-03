@@ -8,40 +8,42 @@ class AllBoards extends React.Component {
         this.state = {
           data: []
         }
-console.log(this);
     }
+
+    componentDidMount() {
+      var dUrl = "http://localhost:9080/myapp/";
+      dUrl += this.props.match.params.id;
+      dUrl += "/boards"
+      var result = '';
+      $.ajax(
+         {
+           url: dUrl,
+
+           success: function(result){
+               //console.log(result);
+               this.setState({data: result});
+           }.bind(this)
+         }
+      );
+    }
+
   render() {
+    return (
+      <table>
+        <tbody>{this.state.data.map(function(item, key) {
+               return (
+                  <tr key = {key}>
+                      <td>
+                        <Link to={`/board/${item.userId}/${item.id}`}>
+                          {item.name}
+                        </Link>
+                      </td>
+                  </tr>
+                )
 
-    var dUrl = "http://localhost:9080/myapp/";
-    dUrl += this.props.match.params.id;
-    dUrl += "/boards"
-    var result = '';
-$.ajax(
-   {
-     url: dUrl,
-
-     success: function(result){
-         //console.log(result);
-         this.setState({data: result});
-     }.bind(this)
-   }
-);
-return (
-  <table>
-    <tbody>{this.state.data.map(function(item, key) {
-           return (
-              <tr key = {key}>
-                  <td>
-                    <Link to={`/board/${item.userId}/${item.id}`}>
-                      {item.name}
-                    </Link>
-                  </td>
-              </tr>
-            )
-
-         })}</tbody>
-   </table>
- )
+             })}</tbody>
+       </table>
+     )
   }
 }
 
