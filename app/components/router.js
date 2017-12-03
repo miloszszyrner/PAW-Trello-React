@@ -44,7 +44,7 @@ class RouterLinks extends React.Component {
           </ul>
           <Route exact path='/board/' component={App} />
           <Route exact path='/allboards/:id' component={AllBoards} />
-          <Route exact path='/board/:userid/:id' component={App1} />
+          <Route exact path='/board/:userid/:id' component={App} />
           <Route exact path='/addboard' component={AddForm} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />

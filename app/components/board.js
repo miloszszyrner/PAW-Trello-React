@@ -51,22 +51,7 @@ class App extends React.Component {
   constructor(){
       super()
         this.state = {
-          lanes: [
-            {
-              id: 'lane1',
-              title: 'Planned Tasks',
-              cards: [
-                {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
-                {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
-              ]
-
-            },
-            {
-              id: 'lane2',
-              title: 'Completed',
-              cards: []
-            }
-          ]
+          lanes: []
         }
         this.addList = this.addList.bind(this);
         this.removeList = this.removeList.bind(this);
@@ -75,30 +60,53 @@ class App extends React.Component {
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
     }
 
+    componentDidMount() {
+      var dUrl = "http://localhost:9080/myapp/";
+      dUrl += this.props.match.params.userid;
+      dUrl += "/boards/";
+      dUrl += this.props.match.params.id;
+      var result = '';
+      var data = {
+        lanes:
+          {
+            id: '',
+            title: '',
+            cards: [
+            ]
+          }
+      }
+      var data2 = {
+        cards:
+        {
+          id: '', title: '', description: ''
+        }
+      }
+      $.ajax({
+         url: dUrl,
+         success: function(result){
+             console.log(result);
+             console.log(data2);
+             this.state.lanes = [];
+             for (var i = 0; i < result.lanes.length; i++) {
+               data.lanes.id = result.lanes[i].id.toString();
+               data.lanes.title = result.lanes[i].title;
+               for (var j = 0; j < result.lanes[i].cards.length; j++) {
+                 data2.cards.id = result.lanes[i].cards[j].id.toString();
+                 data2.cards.title = result.lanes[i].cards[j].title;
+                 data2.cards.description = result.lanes[i].cards[j].description;
+                 data.lanes.cards.push(data2.cards);
+               }
+               this.state.lanes.push(data.lanes);
+             }
+             console.log(this.state.lanes);
+             this.setState({ data: data.lanes });
+         }.bind(this)
+       });
+    }
+
 
 
   render() {
-
-    /*const dUrl = "http://localhost:9080/myapp/boards/1/rolls";
-    var result = '';
-
-    $.ajax(
-       {
-         url: dUrl,
-
-         success: function(result){
-             console.log(result[0].boardId);
-
-             this.state.lanes[0].id = result[0].boardId.toString();
-             this.state.lanes[0].title = result[0].title;
-             this.state.lanes[0].cards[0].id = result[0].cards[0].id.toString();
-             this.state.lanes[0].cards[0].title = result[0].cards[0].title;
-             this.state.lanes[0].cards[0].description = "description";
-             this.setState({ data: {data} });
-         }.bind(this)
-       }
-    );*/
-
     return (
       <div className="App-intro">
                     <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
