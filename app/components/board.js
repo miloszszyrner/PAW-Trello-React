@@ -4,6 +4,7 @@ import { render } from "react-dom";
 //import $ from "jquery";
 var idOfLane;
 var idOfCard;
+var LaneName;
 var data = {
   lanes: [
     {
@@ -33,6 +34,15 @@ const onLaneClick = (laneId) => {
   idOfLane=laneId;
   $('#laneId').val(laneId);
   $('#myModal').modal('show');
+  var nextState = data.lanes;
+  for(var i=0;i<nextState.length;i++){
+     if(nextState[i].id==idOfLane){
+      LaneName=nextState[i].title;
+
+      console.log(`laneName: ${LaneName}`)
+     }
+  }
+
     console.log(`laneId: ${laneId}`)
 
 }
@@ -51,16 +61,33 @@ class App extends React.Component {
   constructor(){
       super()
         this.state = {
-          lanes: []
+          lanes: [
+            {
+              id: 'lane1',
+              title: 'Planned Tasks',
+              cards: [
+                {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
+                {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
+              ]
+            },
+            {
+              id: 'lane2',
+              title: 'Completed',
+              cards: []
+            }
+          ]
         }
         this.addList = this.addList.bind(this);
         this.removeList = this.removeList.bind(this);
         this.removeCard = this.removeCard.bind(this);
         this.addCard = this.addCard.bind(this);
+        this.SaveChangesOfList = this.SaveChangesOfList.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
+        this.NameOfListChange = this.NameOfListChange.bind(this);
+
     }
 
-    componentDidMount() {
+    /*componentDidMount() {
       var dUrl = "http://localhost:9080/myapp/";
       dUrl += this.props.match.params.userid;
       dUrl += "/boards/";
@@ -102,7 +129,7 @@ class App extends React.Component {
              this.setState({ data: data.lanes });
          }.bind(this)
        });
-    }
+    }*/
 
 
 
@@ -121,7 +148,8 @@ class App extends React.Component {
                         </div>
                         <div class="modal-body">
                           <input type="hidden" id="laneId"/>
-
+                          <input type="text" nameOfList="nameOfList"   value={this.state.nameOfList} onChange={this.NameOfListChange} />
+                          <button type="button"  data-dismiss="modal" onClick={this.SaveChangesOfList}>Save</button><br /><br />
                             <button type="button" class="btn btn-danger" data-dismiss="modal" onClick={this.removeList}>Remove List</button>
                               <button type="button" class="btn btn-success" data-dismiss="modal" onClick={this.addCard}>Add new card</button>
                         </div>
@@ -177,6 +205,16 @@ class App extends React.Component {
          //nextState.push();
          this.setState(this.state.lanes);
      }
+     SaveChangesOfList() {
+        console.log(`laneName: ${this.state.nameOfList}`)
+        var nextState = this.state.lanes;
+        for(var i=0;i<nextState.length;i++){
+           if(nextState[i].id==idOfLane){
+            nextState[i].title=this.state.nameOfList
+           }
+        }
+         this.setState(this.state.lanes);
+     }
      addList() {
         // var nextState = this.state.lanes;
          this.state.lanes.push ({id:"lane"+(this.state.lanes.length+1),
@@ -187,6 +225,9 @@ class App extends React.Component {
      }
      handleNameOfListChange(e) {
        this.setState({name: e.target.value});
+     }
+     NameOfListChange(e) {
+       this.setState({nameOfList: e.target.value});
      }
      removeList(){
        var nextState = this.state.lanes;
