@@ -49,7 +49,7 @@ class App extends React.Component {
         this.removeCard = this.removeCard.bind(this);
         this.addCard = this.addCard.bind(this);
         this.SaveChangesOfList = this.SaveChangesOfList.bind(this);
-        this.SaveChangesOfCard = this.SaveChangesOfList.bind(this);
+        this.SaveChangesOfCard = this.SaveChangesOfCard.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
         this.NameOfListChange = this.NameOfListChange.bind(this);
         this.NameOfCardChange = this.NameOfCardChange.bind(this);
