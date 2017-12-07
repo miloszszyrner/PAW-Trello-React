@@ -23,39 +23,6 @@ var data = {
   ]
 }
 
-const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-    console.log('drag ended')
-    console.log(`cardId: ${cardId}`)
-    console.log(`sourceLaneId: ${sourceLaneId}`)
-    console.log(`targetLaneId: ${targetLaneId}`)
-}
-
-const onLaneClick = (laneId) => {
-  idOfLane=laneId;
-  $('#laneId').val(laneId);
-  $('#myModal').modal('show');
-  var nextState = data.lanes;
-  for(var i=0;i<nextState.length;i++){
-     if(nextState[i].id==idOfLane){
-      LaneName=nextState[i].title;
-
-      console.log(`laneName: ${LaneName}`)
-     }
-  }
-
-    console.log(`laneId: ${laneId}`)
-
-}
-const onCardClick = (cardId,metadata,laneId) => {
-  idOfCard=cardId;
-  idOfLane=laneId
-  $('#cardId').val(cardId);
-  $('#myModal2').modal('show');
-    console.log(`laneId: ${laneId}`)
-    console.log(`CardId: ${cardId}`)
-
-
-}
 
 class App extends React.Component {
   constructor(){
@@ -82,8 +49,11 @@ class App extends React.Component {
         this.removeCard = this.removeCard.bind(this);
         this.addCard = this.addCard.bind(this);
         this.SaveChangesOfList = this.SaveChangesOfList.bind(this);
+        this.SaveChangesOfCard = this.SaveChangesOfList.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
         this.NameOfListChange = this.NameOfListChange.bind(this);
+        this.NameOfCardChange = this.NameOfCardChange.bind(this);
+      //  this.DescriptionOfListChange = this.DescriptionOfListChange.bind(this);
 
     }
 
@@ -134,8 +104,57 @@ class App extends React.Component {
 
 
   render() {
+    const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
+        console.log('drag ended')
+        console.log(`cardId: ${cardId}`)
+        console.log(`sourceLaneId: ${sourceLaneId}`)
+        console.log(`targetLaneId: ${targetLaneId}`)
+    }
+
+    const onLaneClick = (laneId) => {
+      idOfLane=laneId;
+      var nextState = this.state.lanes;
+      for(var i=0;i<nextState.length;i++){
+         if(nextState[i].id==idOfLane){
+          this.state.nameOfList=nextState[i].title;
+
+          console.log(`laneName: ${this.state.nameOfList}`)
+         }
+      }
+
+        console.log(`laneId: ${laneId}`)
+
+
+      this.setState(this.state.lanes);
+      $('#laneId').val(laneId);
+      $('#myModal').modal('show');
+
+    }
+    const onCardClick = (cardId,metadata,laneId) => {
+      idOfCard=cardId;
+      idOfLane=laneId
+      var nextState = this.state.lanes;
+      for(var i=0;i<nextState.length;i++){
+        for(var j=0;j<nextState[i].cards.length;j++){
+         if(nextState[i].cards[j].id==idOfCard){
+          this.state.nameOfCard=nextState[i].cards[j].title;
+        //  console.log(`laneName: ${this.state.nameOfCard}`)
+          }
+         }
+      }
+      this.setState(this.state.lanes);
+      $('#cardId').val(cardId);
+      $('#myModal2').modal('show');
+        console.log(`laneId: ${laneId}`)
+        console.log(`CardId: ${cardId}`)
+
+
+    }
+
+
     return (
       <div className="App-intro">
+
                     <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
                     <button onClick={this.addList} style={{margin: 5}}>
                     Add List
@@ -168,8 +187,34 @@ class App extends React.Component {
                       </div>
                       <div class="modal-body">
                         <input type="hidden" id="laneId"/>
+                        Name<br />
+                        <input type="text" nameOfCard="nameOfCard"   value={this.state.nameOfCard} onChange={this.NameOfCardChange} /><br /><br />
+                        Description<br />
+                        <input type="text" nameOfList="DescriptionOfList" size="70"   value={this.state.name} onChange={this.NameOfListChange} /><br /><br />
 
+                        <table id="myTable">
+                        <tr>
+                            <td>
+                                <input type="text" class="fname" />
+                            </td>
+                            <td>
+                                <input type="button" value="Delete" />
+                            </td>
+                        </tr>
+
+                    </table>
+
+                        <input type="button" value="Add new"/><br/><br/>
+
+
+                        <button type="button" class="btn btn-success"   data-dismiss="modal" onClick={this.SaveChangesOfCard}>Save</button>
                           <button type="button" class="btn btn-danger" data-dismiss="modal" onClick={this.removeCard}>Remove Card</button>
+
+
+
+
+
+
 
                       </div>
 
@@ -215,6 +260,19 @@ class App extends React.Component {
         }
          this.setState(this.state.lanes);
      }
+     SaveChangesOfCard() {
+       console.log(`cardName: ${this.state.nameOfCard}`)
+        var nextState = this.state.lanes;
+        for(var i=0;i<nextState.length;i++){
+          for(var j=0;j<nextState[i].cards.length;j++){
+
+           if(nextState[i].cards[j].id==idOfCard){
+            nextState[i].cards[j].title=this.state.nameOfCard
+           }
+         }
+        }
+         this.setState(this.state.lanes);
+     }
      addList() {
         // var nextState = this.state.lanes;
          this.state.lanes.push ({id:"lane"+(this.state.lanes.length+1),
@@ -228,6 +286,12 @@ class App extends React.Component {
      }
      NameOfListChange(e) {
        this.setState({nameOfList: e.target.value});
+     }
+     NameOfCardChange(e) {
+       this.setState({nameOfCard: e.target.value});
+     }
+     DescriptionOfListChange(e) {
+       this.setState({DescriptionOfList: e.target.value});
      }
      removeList(){
        var nextState = this.state.lanes;
