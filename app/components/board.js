@@ -53,7 +53,7 @@ class App extends React.Component {
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
         this.NameOfListChange = this.NameOfListChange.bind(this);
         this.NameOfCardChange = this.NameOfCardChange.bind(this);
-      //  this.DescriptionOfListChange = this.DescriptionOfListChange.bind(this);
+        this.DescriptionOfCardChange = this.DescriptionOfCardChange.bind(this);
 
     }
 
@@ -138,6 +138,7 @@ class App extends React.Component {
         for(var j=0;j<nextState[i].cards.length;j++){
          if(nextState[i].cards[j].id==idOfCard){
           this.state.nameOfCard=nextState[i].cards[j].title;
+          this.state.DescriptionOfCard=nextState[i].cards[j].description;
         //  console.log(`laneName: ${this.state.nameOfCard}`)
           }
          }
@@ -190,7 +191,7 @@ class App extends React.Component {
                         Name<br />
                         <input type="text" nameOfCard="nameOfCard"   value={this.state.nameOfCard} onChange={this.NameOfCardChange} /><br /><br />
                         Description<br />
-                        <input type="text" nameOfList="DescriptionOfList" size="70"   value={this.state.name} onChange={this.NameOfListChange} /><br /><br />
+                        <input type="text" DescriptionOfCardOfList="DescriptionOfCard" size="70"   value={this.state.DescriptionOfCard} onChange={this.DescriptionOfCardChange} /><br /><br />
 
                         <table id="myTable">
                         <tr>
@@ -267,7 +268,9 @@ class App extends React.Component {
           for(var j=0;j<nextState[i].cards.length;j++){
 
            if(nextState[i].cards[j].id==idOfCard){
-            nextState[i].cards[j].title=this.state.nameOfCard
+            nextState[i].cards[j].title=this.state.nameOfCard;
+            nextState[i].cards[j].description=this.state.DescriptionOfCard;
+
            }
          }
         }
@@ -290,8 +293,8 @@ class App extends React.Component {
      NameOfCardChange(e) {
        this.setState({nameOfCard: e.target.value});
      }
-     DescriptionOfListChange(e) {
-       this.setState({DescriptionOfList: e.target.value});
+     DescriptionOfCardChange(e) {
+       this.setState({DescriptionOfCard: e.target.value});
      }
      removeList(){
        var nextState = this.state.lanes;
