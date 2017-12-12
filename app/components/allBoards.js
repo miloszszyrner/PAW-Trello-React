@@ -8,19 +8,21 @@ class AllBoards extends React.Component {
         this.state = {
           data: []
         }
+        console.log(this);
     }
 
     componentDidMount() {
-      var dUrl = "http://localhost:9080/myapp/";
-      dUrl += this.props.match.params.id;
-      dUrl += "/boards"
-      var result = '';
+      var Url = "http://localhost:9080/myapp/boards";
       $.ajax(
          {
-           url: dUrl,
-
+           type: 'GET',
+           url: Url,
+           headers: { 'Authorization': this.props.location.state.authorization},
            success: function(result){
-               //console.log(result);
+               console.log(result);
+                for (var i = 0; i < result.length; i++) {
+                    result[i].authorization = this.props.location.state.authorization;
+                }
                this.setState({data: result});
            }.bind(this)
          }
@@ -34,8 +36,12 @@ class AllBoards extends React.Component {
                return (
                   <tr key = {key}>
                       <td>
-                        <Link to={`/board/${item.userId}/${item.id}`}>
-                          {item.name}
+                        <Link
+                          to={{
+                          pathname: `/board/${item.id}`,
+                          state: { authorization: item.authorization }
+                        }}>
+                        {item.name}
                         </Link>
                       </td>
                   </tr>

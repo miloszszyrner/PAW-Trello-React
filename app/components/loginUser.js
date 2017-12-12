@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import $ from "jquery";
 
 class Login extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ render() {
  );
 }
  handleSubmit() {
+   var _this = this;
     $.ajax({
       type: 'POST',
       url: 'http://localhost:9080/myapp/user/login',
@@ -41,9 +43,13 @@ render() {
         PASSWORD: this.state.password,
       })
     }).then(function(data, status, xhr) {
-      console.log(xhr.getAllResponseHeaders());
+      var address = "/allboards";
+      _this.props.history.push({
+        pathname: address,
+        state: { authorization: xhr.getResponseHeader("authorization") }
+      })
     });
- } 
+ }
 }
 
 export default Login;

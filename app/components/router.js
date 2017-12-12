@@ -22,7 +22,7 @@ class RouterLinks extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to='/board'>
+              <Link to='/board2'>
                 board
               </Link>
             </li>
@@ -42,9 +42,9 @@ class RouterLinks extends React.Component {
               </Link>
             </li>
           </ul>
-          <Route exact path='/board/' component={App} />
-          <Route exact path='/allboards/:id' component={AllBoards} />
-          <Route exact path='/board/:userid/:id' component={App} />
+          <Route exact path='/board2/' component={App} />
+          <Route exact path='/allboards' component={AllBoards} />
+          <Route exact path='/board/:id' component={App1} />
           <Route exact path='/addboard' component={AddForm} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
