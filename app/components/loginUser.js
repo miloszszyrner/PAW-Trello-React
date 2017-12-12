@@ -32,28 +32,18 @@ render() {
  );
 }
  handleSubmit() {
-   fetch('http://localhost:9080/myapp/user/login', {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       USERNAME: this.state.username,
-       PASSWORD: this.state.password,
-     })
-   }).then(response => {
-     if (response.ok) {
-       response.json().then(json => {
-         console.log(json);
-         var address = "/allboards/";
-         address += json.id;
-         console.log(address);
-         this.props.history.push(address);
-
-       });
-     }
-   });
- }
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:9080/myapp/user/login',
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify({
+        USERNAME: this.state.username,
+        PASSWORD: this.state.password,
+      })
+    }).then(function(data, status, xhr) {
+      console.log(xhr.getAllResponseHeaders());
+    });
+ } 
 }
 
 export default Login;
