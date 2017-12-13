@@ -5,20 +5,23 @@ import { render } from "react-dom";
 var idOfLane;
 var idOfCard;
 var LaneName;
+var List=[];
+
 var data = {
   lanes: [
     {
       id: 'lane1',
       title: 'Planned Tasks',
       cards: [
-        {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
-        {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
+        {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes',ListofComments:[{comment:'', id:''}]},
+        {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'},ListofComments:[{comment:'', id:''}]}
       ]
+
     },
     {
       id: 'lane2',
       title: 'Completed',
-      cards: []
+      cards: [{ListofComments:[{comment:'', id:''}]}]
     }
   ]
 }
@@ -27,33 +30,39 @@ var data = {
 class App extends React.Component {
   constructor(){
       super()
+
         this.state = {
           lanes: [
             {
               id: 'lane1',
               title: 'Planned Tasks',
               cards: [
-                {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes'},
-                {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'}}
+                {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes',ListofComments:[{comment:'', id:''}]},
+                {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', metadata: {sha: 'be312a1'},ListofComments:[{comment:'', id:''}]}
               ]
             },
             {
               id: 'lane2',
               title: 'Completed',
-              cards: []
+              cards: [{ListofComments:[{comment:'', id:''}]}]
+
             }
           ]
         }
         this.addList = this.addList.bind(this);
+        this.addComment = this.addComment.bind(this);
         this.removeList = this.removeList.bind(this);
         this.removeCard = this.removeCard.bind(this);
         this.addCard = this.addCard.bind(this);
         this.SaveChangesOfList = this.SaveChangesOfList.bind(this);
+        this.AddNewComment = this.AddNewComment.bind(this);
         this.SaveChangesOfCard = this.SaveChangesOfCard.bind(this);
         this.handleNameOfListChange = this.handleNameOfListChange.bind(this);
         this.NameOfListChange = this.NameOfListChange.bind(this);
         this.NameOfCardChange = this.NameOfCardChange.bind(this);
         this.DescriptionOfCardChange = this.DescriptionOfCardChange.bind(this);
+        this.pirntListOfComments = this.printListOfComments.bind(this);
+
 
     }
 
@@ -133,6 +142,8 @@ class App extends React.Component {
     const onCardClick = (cardId,metadata,laneId) => {
       idOfCard=cardId;
       idOfLane=laneId
+
+      this.pirntListOfComments();
       var nextState = this.state.lanes;
       for(var i=0;i<nextState.length;i++){
         for(var j=0;j<nextState[i].cards.length;j++){
@@ -188,26 +199,18 @@ class App extends React.Component {
                       </div>
                       <div class="modal-body">
                         <input type="hidden" id="laneId"/>
-                        Name<br />
-                        <input type="text" nameOfCard="nameOfCard"   value={this.state.nameOfCard} onChange={this.NameOfCardChange} /><br /><br />
-                        Description<br />
-                        <input type="text" DescriptionOfCardOfList="DescriptionOfCard" size="70"   value={this.state.DescriptionOfCard} onChange={this.DescriptionOfCardChange} /><br /><br />
+                        <h3>Name</h3>
+                        <input type="text" nameOfCard="nameOfCard"   value={this.state.nameOfCard} onChange={this.NameOfCardChange} /><br />
+                        <h3>Description</h3>
+                        <textarea rows="2" cols="70" DescriptionOfCardOfList="DescriptionOfCard" value={this.state.DescriptionOfCard} onChange={this.DescriptionOfCardChange}/>
+                        <br />
 
-                        <table id="myTable">
-                        <tr>
-                            <td>
-                                <input type="text" class="fname" />
-                            </td>
-                            <td>
-                                <input type="button" value="Delete" />
-                            </td>
-                        </tr>
+                        <h3>Comments:</h3>
+                        <textarea rows="2" cols="70" id="comment_text" lnk="lnk"   value={this.state.lnk} onChange={this.AddNewComment} /><br />
+                        <button  onClick={this.addComment}>Add Comment</button>
 
-                    </table>
-
-                        <input type="button" value="Add new"/><br/><br/>
-
-
+                        <div id="links">
+                        </div><br/><br/>
                         <button type="button" class="btn btn-success"   data-dismiss="modal" onClick={this.SaveChangesOfCard}>Save</button>
                           <button type="button" class="btn btn-danger" data-dismiss="modal" onClick={this.removeCard}>Remove Card</button>
 
@@ -236,13 +239,64 @@ class App extends React.Component {
         </div>
     )
      }
+     printListOfComments(){
+       var table =
+       "<table class='table table-striped'><tbody>";
+       var nextState = this.state.lanes;
+       for(var i=0;i<nextState.length;i++){
+          if(nextState[i].id==idOfLane){
+            var nextCard = nextState[i].cards;
+            for(var j=0;j<nextCard.length;j++){
+
+             if(nextCard[j].id==idOfCard){
+               var nextComment = nextCard[j].ListofComments;
+              for(var k=0;k<nextComment.length;k++){
+                table = table + "<tr><td>" + nextComment[k].comment + "</td></tr>";
+            }
+          }
+          }
+        }
+
+     }
+     table = table + "</tbody></table>";
+     document.getElementById("links").innerHTML = table;
+   }
+
+      addComment() {
+           console.log("true")
+          //var lnk = document.getElementById("lnk").value; // get the input value
+
+          //var urlList = [];  // create a new anchor element
+                   // set its href
+                   var nextState = this.state.lanes;
+                   for(var i=0;i<nextState.length;i++){
+                      if(nextState[i].id==idOfLane){
+                        for(var j=0;j<nextState[i].cards.length;j++){
+
+                         if(nextState[i].cards[j].id==idOfCard){
+                           List = nextState[i].cards[j].ListofComments;
+                            List.push({comment:this.state.lnk});
+                            this.state.lnk = '';
+                            this.printListOfComments();
+                        }
+                      }
+                      }
+                    }
+
+
+
+
+           this.setState(this.state.lanes);
+      }
      addCard() {
+
        var nextState = this.state.lanes;
        for(var i=0;i<nextState.length;i++){
           if(nextState[i].id==idOfLane){
             var nextState2 = this.state.lanes[i].cards;
             nextState2.push ({id:"Card"+(this.state.lanes[i].cards.length+1+"."+i),
-            title: "Card"+(this.state.lanes[i].cards.length+1+"."+i)});
+            title: "Card"+(this.state.lanes[i].cards.length+1+"."+i),
+            ListofComments:[]});
 
 
           }
@@ -270,6 +324,9 @@ class App extends React.Component {
            if(nextState[i].cards[j].id==idOfCard){
             nextState[i].cards[j].title=this.state.nameOfCard;
             nextState[i].cards[j].description=this.state.DescriptionOfCard;
+            //nextState[i].cards[j].ListofComments=[];
+            nextState[i].cards[j].ListofComments=List;
+
 
            }
          }
@@ -289,6 +346,9 @@ class App extends React.Component {
      }
      NameOfListChange(e) {
        this.setState({nameOfList: e.target.value});
+     }
+     AddNewComment(e) {
+       this.setState({lnk: e.target.value});
      }
      NameOfCardChange(e) {
        this.setState({nameOfCard: e.target.value});
