@@ -167,8 +167,8 @@ class App extends React.Component {
     return (
       <div className="App-intro">
 
-                    <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
-                    <button onClick={this.addList} style={{margin: 5}}>
+                    <input type="text" name="name" placeholder="Name" class="form-control input-lg" value={this.state.name} onChange={this.handleNameOfListChange} />
+                    <button onClick={this.addList} class="btn btn-lg btn-primary btn-block" style={{margin: 5}}>
                     Add List
                     </button>
                     <div class="modal fade" id="myModal" role="dialog">

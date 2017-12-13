@@ -31,7 +31,7 @@ class AllBoards extends React.Component {
 
   render() {
     return (
-      <table>
+      <table class="table table-striped">
         <tbody>{this.state.data.map(function(item, key) {
                return (
                   <tr key = {key}>

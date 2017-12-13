@@ -15,33 +15,37 @@ class RouterLinks extends React.Component {
     return (
       <Router>
         <div className='container'>
-          <ul className='nav'>
-            <li>
-              <Link to='/allboards'>
-                AllBoards
-              </Link>
-            </li>
-            <li>
-              <Link to='/board2'>
-                board
-              </Link>
-            </li>
-            <li>
-              <Link to='/addboard'>
-                Add Board
-              </Link>
-            </li>
-            <li>
-              <Link to='/login'>
-                login
-              </Link>
-            </li>
-            <li>
-              <Link to='/register'>
-                register
-              </Link>
-            </li>
+        <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+          <li>
+          <Link to='/allboards'>
+            AllBoards
+          </Link>
+        </li>
+        <li>
+          <Link to='/board2'>
+            board
+          </Link>
+        </li>
+        <li>
+          <Link to='/addboard'>
+            Add Board
+          </Link>
+        </li>
+        <li>
+          <Link to='/login'>
+            login
+          </Link>
+        </li>
+        <li>
+          <Link to='/register'>
+            register
+          </Link>
+        </li>
           </ul>
+        </div>
+      </nav>
           <Route exact path='/board2/' component={App} />
           <Route exact path='/allboards' component={AllBoards} />
           <Route exact path='/board/:id' component={App1} />

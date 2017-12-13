@@ -30,10 +30,10 @@ render() {
  return(
   <form className="form">
    <h4>Register user</h4>
-    <input  type="text" placeholder="Username" value={this.state.username} onChange={(e) => this.handleUsername(e)}></input><br/>
-    <input  type="password" placeholder="Password" value={this.state.password} onChange={(e) => this.handlePassword(e)}></input><br/>
-    <input  type="password" placeholder="Password confirmation" value={this.state.passwordConfirmation} onChange={(e) => this.handlePasswordConfirmation(e)}></input><br/>
-    <button className="submit" type="button" onClick={this.handleSubmit}>Submit</button>
+    <input  type="text" placeholder="Username" class="form-control input-lg" value={this.state.username} onChange={(e) => this.handleUsername(e)}></input><br/>
+    <input  type="password" placeholder="Password" class="form-control input-lg" value={this.state.password} onChange={(e) => this.handlePassword(e)}></input><br/>
+    <input  type="password" placeholder="Password confirmation" class="form-control input-lg" value={this.state.passwordConfirmation} onChange={(e) => this.handlePasswordConfirmation(e)}></input><br/>
+    <button className="submit" type="button" class="btn btn-lg btn-primary btn-block" onClick={this.handleSubmit}>Submit</button>
   </form>
  );
 }
