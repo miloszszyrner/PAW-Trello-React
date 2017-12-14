@@ -61,6 +61,7 @@ class App extends React.Component {
           id: '', title: '', description: ''
         }
       }
+      console.log(data2);
       $.ajax({
         type: 'GET',
          url: Url,
@@ -77,8 +78,23 @@ class App extends React.Component {
                  data2.cards.title = result.lanes[i].cards[j].title;
                  data2.cards.description = result.lanes[i].cards[j].description;
                  data.lanes.cards.push(data2.cards);
+                 data2 = {
+                   cards:
+                   {
+                     id: '', title: '', description: ''
+                   }
+                 }
                }
                this.state.lanes.push(data.lanes);
+               data = {
+                 lanes:
+                   {
+                     id: '',
+                     title: '',
+                     cards: [
+                     ]
+                   }
+               }
              }
              console.log(this.state.lanes);
              this.setState({ data: data.lanes });
@@ -235,6 +251,25 @@ class App extends React.Component {
         }
          //nextState.push();
          this.setState(this.state.lanes);
+         var Url = 'http://localhost:9080/myapp/boards/';
+         Url += this.props.match.params.id;
+         Url += '/lanes/';
+         Url += idOfLane;
+         Url += '/cards';
+         $.ajax(
+            {
+              type: 'POST',
+              url: Url,
+              headers: {
+                'Authorization': this.props.location.state.authorization,
+                'Content-Type': 'application/json'
+              },
+              data: JSON.stringify({
+                'laneId': idOfLane,
+                'title': nextState2[nextState2.length - 1].title
+              })
+            }
+         );
      }
      SaveChangesOfList() {
         console.log(`laneName: ${this.state.nameOfList}`)
@@ -268,6 +303,23 @@ class App extends React.Component {
          cards: []});
          //nextState.push();
          this.setState(this.state.lanes);
+         var Url = 'http://localhost:9080/myapp/boards/';
+         Url += this.props.match.params.id;
+         Url += '/lanes';
+         $.ajax(
+            {
+              type: 'POST',
+              url: Url,
+              headers: {
+                'Authorization': this.props.location.state.authorization,
+                'Content-Type': 'application/json'
+              },
+              data: JSON.stringify({
+                'boardId': this.props.match.params.id,
+                'title': this.state.name
+              })
+            }
+         );
      }
      handleNameOfListChange(e) {
        this.setState({name: e.target.value});
