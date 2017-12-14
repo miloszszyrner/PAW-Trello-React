@@ -345,6 +345,16 @@ class App extends React.Component {
           }
        }
        this.setState(nextState);
+       var Url = 'http://localhost:9080/myapp/boards/';
+       Url += this.props.match.params.id;
+       Url += '/lanes/';
+       Url += idOfLane;
+       fetch(Url, {
+         method: 'DELETE',
+         headers: {
+           'Authorization': this.props.location.state.authorization
+         }
+       })
      }
        removeCard(){
          var nextState = this.state.lanes;
@@ -358,6 +368,18 @@ class App extends React.Component {
 
 
        this.setState(nextState);
+       var Url = 'http://localhost:9080/myapp/boards/';
+       Url += this.props.match.params.id;
+       Url += '/lanes/';
+       Url += idOfLane;
+       Url += '/cards/'
+       Url += idOfCard;
+       fetch(Url, {
+         method: 'DELETE',
+         headers: {
+           'Authorization': this.props.location.state.authorization
+         }
+       })
      }
 }
 
