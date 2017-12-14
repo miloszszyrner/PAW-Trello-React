@@ -8,6 +8,7 @@ class AllBoards extends React.Component {
         this.state = {
           data: []
         }
+        this.deleteBoard = this.deleteBoard.bind(this);
         console.log(this);
     }
 
@@ -30,6 +31,7 @@ class AllBoards extends React.Component {
     }
 
   render() {
+    var _this = this;
     return (
       <table class="table table-striped">
         <tbody>
@@ -42,8 +44,11 @@ class AllBoards extends React.Component {
                           pathname: `/board/${item.id}`,
                           state: { authorization: item.authorization }
                         }}>
-                        {item.name}
+                          {item.name}
                         </Link>
+                      </td>
+                      <td align='Right'>
+                        <button onClick={() => _this.deleteBoard(item.id)}>Remove</button>
                       </td>
                   </tr>
                 )
@@ -64,6 +69,27 @@ class AllBoards extends React.Component {
        </table>
      )
   }
+
+  deleteBoard(id) {
+    var Url = 'http://localhost:9080/myapp/boards/';
+    Url += id;
+    var _this = this;
+    fetch(Url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': this.props.location.state.authorization
+      }
+    }).then(function(response) {
+      var data = [];
+      for(var i = 0; i < _this.state.data.length; i++) {
+        if(_this.state.data[i].id != id) {
+          data.push(_this.state.data[i]);
+        }
+      }
+      _this.setState({data: data});
+    })
+  }
+
 }
 
 export default AllBoards;
