@@ -38,17 +38,22 @@ render() {
  );
 }
  handleSubmit() {
-   fetch('http://localhost:9080/myapp/user/registration', {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       USERNAME: this.state.username,
-       PASSWORD: this.state.password,
-       PASSWORDCONFIRMATION: this.state.passwordConfirmation,
-     })
-   })
+   var _this = this;
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:9080/myapp/user/registration',
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify({
+        USERNAME: this.state.username,
+        PASSWORD: this.state.password,
+        PASSWORDCONFIRMATION: this.state.passwordConfirmation,
+      })
+    }).then(function(data, status, xhr) {
+      var address = "/login";
+      _this.props.history.push({
+        pathname: address
+      })
+    });
  }
 }
 
