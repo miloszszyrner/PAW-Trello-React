@@ -29,16 +29,29 @@ render() {
  );
 }
  handleSubmit() {
-   fetch('http://localhost:9080/myapp/10000/boards', {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       //user: this.state.user,
-       NAME: this.state.boardName,
+   var Url = 'http://localhost:9080/myapp/boards';
+   var _this = this;
+   var auth = this.props.location.state.authorization;
+   $.ajax(
+      {
+        type: 'POST',
+        url: Url,
+        headers: {
+          'Authorization': this.props.location.state.authorization,
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+          'name': this.state.boardName
+        })
+      }
+   ).then(function(data, status, xhr) {
+     var address = "/allboards";
+     _this.props.history.push({
+       pathname: address,
+       state: { authorization: auth }
      })
-   })
+   });
+
   //console.log(this.state.user)
   console.log(this.state.boardName)
  }

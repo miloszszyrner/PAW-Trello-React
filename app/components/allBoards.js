@@ -32,7 +32,8 @@ class AllBoards extends React.Component {
   render() {
     return (
       <table class="table table-striped">
-        <tbody>{this.state.data.map(function(item, key) {
+        <tbody>
+          {this.state.data.map(function(item, key) {
                return (
                   <tr key = {key}>
                       <td>
@@ -47,7 +48,19 @@ class AllBoards extends React.Component {
                   </tr>
                 )
 
-             })}</tbody>
+             })}
+             <tr>
+              <td>
+                <Link
+                  to={{
+                  pathname: `/addboard`,
+                  state: { authorization: this.props.location.state.authorization }
+                }}>
+                  Add Board
+                </Link>
+              </td>
+            </tr>
+         </tbody>
        </table>
      )
   }
