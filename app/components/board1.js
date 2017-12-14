@@ -71,29 +71,33 @@ class App extends React.Component {
              console.log(data2);
              this.state.lanes = [];
              for (var i = 0; i < result.lanes.length; i++) {
-               data.lanes.id = result.lanes[i].id.toString();
-               data.lanes.title = result.lanes[i].title;
-               for (var j = 0; j < result.lanes[i].cards.length; j++) {
-                 data2.cards.id = result.lanes[i].cards[j].id.toString();
-                 data2.cards.title = result.lanes[i].cards[j].title;
-                 data2.cards.description = result.lanes[i].cards[j].description;
-                 data.lanes.cards.push(data2.cards);
-                 data2 = {
-                   cards:
-                   {
-                     id: '', title: '', description: ''
+               if(result.lanes[i].status == "CREATED") {
+                 data.lanes.id = result.lanes[i].id.toString();
+                 data.lanes.title = result.lanes[i].title;
+                 for (var j = 0; j < result.lanes[i].cards.length; j++) {
+                   if(result.lanes[i].cards[j].status == "CREATED") {
+                     data2.cards.id = result.lanes[i].cards[j].id.toString();
+                     data2.cards.title = result.lanes[i].cards[j].title;
+                     data2.cards.description = result.lanes[i].cards[j].description;
+                     data.lanes.cards.push(data2.cards);
+                     data2 = {
+                       cards:
+                       {
+                         id: '', title: '', description: ''
+                       }
+                     }
                    }
                  }
-               }
-               this.state.lanes.push(data.lanes);
-               data = {
-                 lanes:
-                   {
-                     id: '',
-                     title: '',
-                     cards: [
-                     ]
-                   }
+                 this.state.lanes.push(data.lanes);
+                 data = {
+                   lanes:
+                     {
+                       id: '',
+                       title: '',
+                       cards: [
+                       ]
+                     }
+                 }
                }
              }
              console.log(this.state.lanes);
