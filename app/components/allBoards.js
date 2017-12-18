@@ -48,7 +48,7 @@ class AllBoards extends React.Component {
                         </Link>
                       </td>
                       <td align='Right'>
-                        <button onClick={() => _this.deleteBoard(item.id)}>Remove</button>
+                        <button class="btn btn-danger" onClick={() => _this.deleteBoard(item.id)}>Remove</button>
                       </td>
                   </tr>
                 )
