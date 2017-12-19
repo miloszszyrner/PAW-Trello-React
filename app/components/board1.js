@@ -287,6 +287,7 @@ class App extends React.Component {
 
           //var urlList = [];  // create a new anchor element
                    // set its href
+                   var comment;
                    var nextState = this.state.lanes;
                    for(var i=0;i<nextState.length;i++){
                       if(nextState[i].id==idOfLane){
@@ -295,6 +296,7 @@ class App extends React.Component {
                          if(nextState[i].cards[j].id==idOfCard){
                            List = nextState[i].cards[j].ListofComments;
                             List.push({comment:this.state.lnk});
+                            comment = this.state.lnk;
                             this.state.lnk = '';
                             this.printListOfComments();
                         }
@@ -306,6 +308,26 @@ class App extends React.Component {
 
 
            this.setState(this.state.lanes);
+           var Url = 'http://localhost:9080/myapp/boards/';
+           Url += this.props.match.params.id;
+           Url += '/lanes/';
+           Url += idOfLane;
+           Url += '/cards/';
+           Url += idOfCard;
+           Url += '/remarks';
+           $.ajax(
+              {
+                type: 'POST',
+                url: Url,
+                headers: {
+                  'Authorization': this.props.location.state.authorization,
+                  'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                  'content': comment
+                })
+              }
+           );
       }
      addCard() {
        var nextState = this.state.lanes;
