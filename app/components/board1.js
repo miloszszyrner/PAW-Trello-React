@@ -114,6 +114,25 @@ class App extends React.Component {
         console.log(`cardId: ${cardId}`)
         console.log(`sourceLaneId: ${sourceLaneId}`)
         console.log(`targetLaneId: ${targetLaneId}`)
+        var Url = 'http://localhost:9080/myapp/boards/';
+        Url += this.props.match.params.id;
+        Url += '/lanes/';
+        Url += sourceLaneId;
+        Url += '/cards/';
+        Url += cardId;
+        $.ajax(
+           {
+             type: 'PUT',
+             url: Url,
+             headers: {
+               'Authorization': this.props.location.state.authorization,
+               'Content-Type': 'application/json'
+             },
+             data: JSON.stringify({
+               'laneId': targetLaneId
+             })
+           }
+        );
     }
 
     const onLaneClick = (laneId) => {
@@ -284,6 +303,23 @@ class App extends React.Component {
            }
         }
          this.setState(this.state.lanes);
+         var Url = 'http://localhost:9080/myapp/boards/';
+         Url += this.props.match.params.id;
+         Url += '/lanes/';
+         Url += idOfLane;
+         $.ajax(
+            {
+              type: 'PUT',
+              url: Url,
+              headers: {
+                'Authorization': this.props.location.state.authorization,
+                'Content-Type': 'application/json'
+              },
+              data: JSON.stringify({
+                'title': this.state.nameOfList,
+              })
+            }
+         );
      }
      SaveChangesOfCard() {
        console.log(`cardName: ${this.state.nameOfCard}`)
@@ -299,6 +335,26 @@ class App extends React.Component {
          }
         }
          this.setState(this.state.lanes);
+         var Url = 'http://localhost:9080/myapp/boards/';
+         Url += this.props.match.params.id;
+         Url += '/lanes/';
+         Url += idOfLane;
+         Url += '/cards/';
+         Url += idOfCard;
+         $.ajax(
+            {
+              type: 'PUT',
+              url: Url,
+              headers: {
+                'Authorization': this.props.location.state.authorization,
+                'Content-Type': 'application/json'
+              },
+              data: JSON.stringify({
+                'title': this.state.nameOfCard,
+                'description': this.state.DescriptionOfCard
+              })
+            }
+         );
      }
      addList() {
         // var nextState = this.state.lanes;
