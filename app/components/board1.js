@@ -64,7 +64,7 @@ class App extends React.Component {
       var data2 = {
         cards:
         {
-          id: '', title: '', description: ''
+          id: '', title: '', description: '', ListofComments: []
         }
       }
       console.log(data2);
@@ -89,7 +89,7 @@ class App extends React.Component {
                      data2 = {
                        cards:
                        {
-                         id: '', title: '', description: ''
+                         id: '', title: '', description: '', ListofComments: []
                        }
                      }
                    }
