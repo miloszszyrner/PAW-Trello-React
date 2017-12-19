@@ -38,38 +38,38 @@ render() {
  );
 }
  handleSubmit() {
-   if(this.state.password != this.state.passwordConfirmation) {
-     console.log("wrong confirmation");
+   if (this.state.password != this.state.passwordConfirmation) {
+    alert("wrong confirmation");
    }
-   else if(this.state.password.length < 8) {
-     console.log("password too short");
+   else if (this.state.password.length < 8) {
+    alert("password too short");
    }
-   else if(/^[a-zA-Z0-9- ]*$/.test(this.state.password) == true) {
-     console.log("no speciel signs in password");
+   else if (/^[a-zA-Z0-9- ]*$/.test(this.state.password) == true) {
+    alert("no speciel signs in password");
    }
-   else if(/\d/.test(this.state.password) == false) {
-     console.log("no numbers in password");
+   else if (/\d/.test(this.state.password) == false) {
+    alert("no numbers in password");
    }
-   else if(this.state.username.length < 1) {
-     console.log("username too short");
+   else if (this.state.username.length < 1) {
+    alert("username too short");
    }
    else {
      var _this = this;
-      $.ajax({
-        type: 'POST',
-        url: 'http://localhost:9080/myapp/user/registration',
-        headers: { 'Content-Type': 'application/json' },
-        data: JSON.stringify({
-          USERNAME: this.state.username,
-          PASSWORD: this.state.password,
-          PASSWORDCONFIRMATION: this.state.passwordConfirmation,
-        })
-      }).then(function(data, status, xhr) {
-        var address = "/login";
-        _this.props.history.push({
-          pathname: address
-        })
-      });
+     $.ajax({
+       type: 'POST',
+       url: 'http://localhost:9080/myapp/user/registration',
+       headers: { 'Content-Type': 'application/json' },
+       data: JSON.stringify({
+         USERNAME: this.state.username,
+         PASSWORD: this.state.password,
+         PASSWORDCONFIRMATION: this.state.passwordConfirmation,
+       })
+     }).then(function (data, status, xhr) {
+       var address = "/login";
+       _this.props.history.push({
+         pathname: address
+       })
+     });
    }
  }
 }
