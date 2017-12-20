@@ -45,6 +45,7 @@ class App extends React.Component {
         this.NameOfCardChange = this.NameOfCardChange.bind(this);
         this.DescriptionOfCardChange = this.DescriptionOfCardChange.bind(this);
         this.pirntListOfComments = this.printListOfComments.bind(this);
+        this.backToAllBoards = this.backToAllBoards.bind(this);
 
         console.log(this);
     }
@@ -147,6 +148,26 @@ class App extends React.Component {
       }
       this.setState(this.state.lanes);
   }
+  var Url = 'http://localhost:9080/myapp/boards/';
+         Url += this.props.match.params.id;
+         Url += '/lanes/';
+        Url += sourceLaneId;
+        Url += '/cards/';
+         Url += cardId;
+         $.ajax(
+            {
+              type: 'PUT',
+              url: Url,
+              headers: {
+                'Authorization': this.props.location.state.authorization,
+                'Content-Type': 'application/json'
+              },
+              data: JSON.stringify({
+                'laneId': targetLaneId
+              })
+            }
+         );
+
 
   this.setState(this.state.lanes);
   }
@@ -197,8 +218,11 @@ class App extends React.Component {
       <div className="App-intro">
 
                     <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
-                    <button onClick={this.addList} style={{margin: 5}}>
-                    Add List
+                    <button class="btn btn-default" onClick={this.addList} style={{margin: 5}}>
+                       Add List
+                    </button>
+                     <button class="btn btn-default pull-right" onClick={this.backToAllBoards} style={{margin: 5}}>
+                      AllBoards
                     </button>
                     <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">                      <div class="modal-content">
@@ -297,6 +321,7 @@ class App extends React.Component {
 
           //var urlList = [];  // create a new anchor element
                    // set its href
+                   var comment;
                    var nextState = this.state.lanes;
                    for(var i=0;i<nextState.length;i++){
                       if(nextState[i].id==idOfLane){
@@ -305,6 +330,7 @@ class App extends React.Component {
                          if(nextState[i].cards[j].id==idOfCard){
                            List = nextState[i].cards[j].ListofComments;
                             List.push({comment:this.state.lnk});
+                            comment = this.state.lnk;
                             this.state.lnk = '';
                             this.printListOfComments();
                         }
@@ -312,10 +338,27 @@ class App extends React.Component {
                       }
                     }
 
-
-
-
            this.setState(this.state.lanes);
+           var Url = 'http://localhost:9080/myapp/boards/';
+            Url += this.props.match.params.id;
+            Url += '/lanes/';
+            Url += idOfLane;
+            Url += '/cards/';
+            Url += idOfCard;
+            Url += '/remarks';
+            $.ajax(
+               {
+                 type: 'POST',
+                url: Url,
+                 headers: {
+                   'Authorization': this.props.location.state.authorization,
+                   'Content-Type': 'application/json'
+                 },
+                 data: JSON.stringify({
+                   'content': comment
+                 })
+               }
+            );
       }
      addCard() {
        var nextState = this.state.lanes;
@@ -336,24 +379,22 @@ class App extends React.Component {
          //nextState.push();
          this.setState(this.state.lanes);
          var Url = 'http://localhost:9080/myapp/boards/';
-         Url += this.props.match.params.id;
-         Url += '/lanes/';
+          Url += this.props.match.params.id;
+          Url += '/lanes/';
          Url += idOfLane;
-         Url += '/cards';
-         $.ajax(
-            {
-              type: 'POST',
-              url: Url,
-              headers: {
-                'Authorization': this.props.location.state.authorization,
-                'Content-Type': 'application/json'
-              },
-              data: JSON.stringify({
-                'laneId': idOfLane,
-                'title': nextState2[nextState2.length - 1].title
-              })
-            }
-         );
+          $.ajax(
+             {
+               type: 'PUT',
+               url: Url,
+               headers: {
+                 'Authorization': this.props.location.state.authorization,
+                 'Content-Type': 'application/json'
+               },
+               data: JSON.stringify({
+                 'title': this.state.nameOfList,
+               })
+             }
+          );
      }
      SaveChangesOfList() {
         console.log(`laneName: ${this.state.nameOfList}`)
@@ -379,6 +420,26 @@ class App extends React.Component {
          }
         }
          this.setState(this.state.lanes);
+         var Url = 'http://localhost:9080/myapp/boards/';
+          Url += this.props.match.params.id;
+          Url += '/lanes/';
+          Url += idOfLane;
+          Url += '/cards/';
+          Url += idOfCard;
+          $.ajax(
+             {
+               type: 'PUT',
+               url: Url,
+               headers: {
+                 'Authorization': this.props.location.state.authorization,
+                 'Content-Type': 'application/json'
+               },
+               data: JSON.stringify({
+                 'title': this.state.nameOfCard,
+                 'description': this.state.DescriptionOfCard
+               })
+             }
+          );
      }
      addList() {
         // var nextState = this.state.lanes;
@@ -464,6 +525,13 @@ class App extends React.Component {
          }
        })
      }
+     backToAllBoards() {
+        var address = "/allboards";
+        this.props.history.push({
+          pathname: address,
+          state: { authorization: this.props.location.state.authorization }
+        })
+      }
 }
 
 export default App;
