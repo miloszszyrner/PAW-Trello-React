@@ -228,7 +228,7 @@ class App extends React.Component {
                       <div class="modal-body">
                         <input type="hidden" id="laneId"/>
                         <h3>Name</h3>
-                        <input type="text" nameOfCard="nameOfCard"   value={this.state.nameOfCard} onChange={this.NameOfCardChange} /><br />
+                        <input type="text" nameOfCard="nameOfCard" required="true"  value={this.state.nameOfCard} onChange={this.NameOfCardChange} /><br />
                         <h3>Description</h3>
                         <textarea rows="2" cols="70" DescriptionOfCardOfList="DescriptionOfCard" value={this.state.DescriptionOfCard} onChange={this.DescriptionOfCardChange}/>
                         <br />
@@ -329,12 +329,22 @@ class App extends React.Component {
             nextState2.push ({id:"Card"+(idForNewCard+"."+i),
             title: "Card"+(idForNewCard+"."+i),
             ListofComments:[]});
-
+            idOfCard="Card"+(idForNewCard+"."+i);
+            this.state.nameOfCard=idOfCard
+            this.state.DescriptionOfCard=''
+            this.pirntListOfComments();
           }
 
         }
          //nextState.push();
+         //$('#cardId').val(cardId);
+
+
+         $('#cardId').val(idOfCard);
+         $('#myModal2').modal('show');
+
          this.setState(this.state.lanes);
+
      }
      SaveChangesOfList() {
         console.log(`laneName: ${this.state.nameOfList}`)

@@ -372,10 +372,19 @@ class App extends React.Component {
             nextState2.push ({id:"Card"+(idForNewCard+"."+i),
             title: "Card"+(idForNewCard+"."+i),
             ListofComments:[]});
-
+            idOfCard="Card"+(idForNewCard+"."+i);
+            this.state.nameOfCard=idOfCard
+            this.state.DescriptionOfCard=''
+            this.pirntListOfComments();
           }
 
         }
+         //nextState.push();
+         //$('#cardId').val(cardId);
+
+
+         $('#cardId').val(idOfCard);
+         $('#myModal2').modal('show');
          //nextState.push();
          this.setState(this.state.lanes);
          var Url = 'http://localhost:9080/myapp/boards/';
