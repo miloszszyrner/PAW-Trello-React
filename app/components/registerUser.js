@@ -65,10 +65,22 @@ render() {
          PASSWORDCONFIRMATION: this.state.passwordConfirmation,
        })
      }).then(function (data, status, xhr) {
-       var address = "/login";
-       _this.props.history.push({
-         pathname: address
-       })
+       //var _this = _this;
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:9080/myapp/user/login',
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({
+            USERNAME: _this.state.username,
+            PASSWORD: _this.state.password,
+          })
+        }).then(function(data, status, xhr) {
+          var address = "/allboards";
+          _this.props.history.push({
+            pathname: address,
+            state: { authorization: xhr.getResponseHeader("authorization") }
+          })
+        });
      });
    }
  }
