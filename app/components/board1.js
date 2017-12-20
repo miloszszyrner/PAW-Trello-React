@@ -2,6 +2,7 @@ import React from 'react';
 import Board from 'react-trello';
 import { render } from "react-dom";
 //import $ from "jquery";
+var status;
 var idOfLane;
 var idOfCard;
 var LaneName;
@@ -46,7 +47,7 @@ class App extends React.Component {
         this.DescriptionOfCardChange = this.DescriptionOfCardChange.bind(this);
         this.pirntListOfComments = this.printListOfComments.bind(this);
         this.backToAllBoards = this.backToAllBoards.bind(this);
-
+        this.changeVisibility = this.changeVisibility.bind(this);
         console.log(this);
     }
 
@@ -106,6 +107,12 @@ class App extends React.Component {
                      }
                  }
                }
+             }
+             if(result.visibility == 'PUBLIC') {
+               status = 'PRIVATE';
+             }
+             if(result.visibility == 'PRIVATE') {
+               status = 'PUBLIC';
              }
              console.log(this.state.lanes);
              this.setState({ data: data.lanes });
@@ -221,7 +228,10 @@ class App extends React.Component {
                     <button class="btn btn-default" onClick={this.addList} style={{margin: 5}}>
                        Add List
                     </button>
-                     <button class="btn btn-default pull-right" onClick={this.backToAllBoards} style={{margin: 5}}>
+                    <button class="btn btn-default" onClick={this.changeVisibility} style={{margin: 5}}>
+                       Public / Private
+                    </button>
+                    <button class="btn btn-default pull-right" onClick={this.backToAllBoards} style={{margin: 5}}>
                       AllBoards
                     </button>
                     <div class="modal fade" id="myModal" role="dialog">
@@ -534,12 +544,39 @@ class App extends React.Component {
          }
        })
      }
+
      backToAllBoards() {
         var address = "/allboards";
         this.props.history.push({
           pathname: address,
           state: { authorization: this.props.location.state.authorization }
         })
+      }
+
+      changeVisibility() {
+        var Url = 'http://localhost:9080/myapp/boards/';
+        Url += this.props.match.params.id;
+        $.ajax(
+          {
+            type: 'PUT',
+            url: Url,
+            headers: {
+              'Authorization': this.props.location.state.authorization,
+              'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+              'visibility': status
+            }),
+            success: function(result){
+              if(status == 'PUBLIC') {
+                status = 'PRIVATE';
+              }
+              if(status == 'PRIVATE') {
+                status = 'PUBLIC';
+              }
+            }.bind(this)
+          }
+        );
       }
 }
 

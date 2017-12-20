@@ -24,6 +24,7 @@ render() {
   <form className="form">
    <h4>Create Board</h4>
     <input  className="notes" placeholder="Board Name" class="form-control input-lg" value={this.state.boardName} onChange={(e) => this.handleBoardName(e)}></input><br/>
+    <input type="checkbox" id="visibility"/>Public<br/>
     <button className="submit" type="button" class="btn btn-lg btn-primary btn-block" onClick={this.handleSubmit}>Add</button>
   </form>
  );
@@ -32,6 +33,10 @@ render() {
    var Url = 'http://localhost:9080/myapp/boards';
    var _this = this;
    var auth = this.props.location.state.authorization;
+   var vis = 'PRIVATE';
+   if(document.getElementById("visibility").checked) {
+     vis = 'PUBLIC';
+   }
    $.ajax(
       {
         type: 'POST',
@@ -41,7 +46,8 @@ render() {
           'Content-Type': 'application/json'
         },
         data: JSON.stringify({
-          'name': this.state.boardName
+          'name': this.state.boardName,
+          'visibility': vis
         })
       }
    ).then(function(data, status, xhr) {
@@ -51,9 +57,6 @@ render() {
        state: { authorization: auth }
      })
    });
-
-  //console.log(this.state.user)
-  console.log(this.state.boardName)
  }
 }
 

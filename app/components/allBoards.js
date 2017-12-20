@@ -35,25 +35,60 @@ class AllBoards extends React.Component {
     return (
       <table class="table table-striped">
         <tbody>
+          <tr>
+            <td>
+              <center>
+                Private
+              </center>
+            </td>
+          </tr>
           {this.state.data.map(function(item, key) {
+            if(item.status == 'CREATED' && item.visibility == 'PRIVATE') {
                return (
-                  <tr key = {key}>
-                      <td>
-                        <Link
-                          to={{
-                          pathname: `/board/${item.id}`,
-                          state: { authorization: item.authorization }
-                        }}>
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td align='Right'>
-                        <button class="btn btn-danger" onClick={() => _this.deleteBoard(item.id)}>Remove</button>
-                      </td>
-                  </tr>
+                   <tr key = {key}>
+                       <td>
+                         <Link
+                           to={{
+                           pathname: `/board/${item.id}`,
+                           state: { authorization: item.authorization }
+                         }}>
+                           {item.name}
+                         </Link>
+                       </td>
+                       <td align='Right'>
+                         <button class="btn btn-danger" onClick={() => _this.deleteBoard(item.id)}>Remove</button>
+                       </td>
+                   </tr>
                 )
-
+              }
              })}
+             <tr>
+               <td>
+                 <center>
+                   Public
+                 </center>
+               </td>
+             </tr>
+             {this.state.data.map(function(item, key) {
+               if(item.status == 'CREATED' && item.visibility == 'PUBLIC') {
+                  return (
+                      <tr key = {key}>
+                          <td>
+                            <Link
+                              to={{
+                              pathname: `/board/${item.id}`,
+                              state: { authorization: item.authorization }
+                            }}>
+                              {item.name}
+                            </Link>
+                          </td>
+                          <td align='Right'>
+                            <button class="btn btn-danger" onClick={() => _this.deleteBoard(item.id)}>Remove</button>
+                          </td>
+                      </tr>
+                   )
+                 }
+                })}
              <tr>
               <td>
                 <Link
