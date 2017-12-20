@@ -118,6 +118,34 @@ class App extends React.Component {
         console.log(`cardId: ${cardId}`)
         console.log(`sourceLaneId: ${sourceLaneId}`)
         console.log(`targetLaneId: ${targetLaneId}`)
+        for(var i=0;i<this.state.lanes.length;i++){
+
+            if(this.state.lanes[i].id==sourceLaneId){
+
+              for(var y=0;y<this.state.lanes.length;y++){
+                    if(this.state.lanes[y].id==targetLaneId){
+
+                       var nextState2 = this.state.lanes[y].cards;
+                       var nextState3 = this.state.lanes[i].cards;
+                       for(var j=0;j<nextState3.length;j++){
+                         if(nextState3[j].id==cardId){
+
+                           nextState2.push ({id: nextState3[j].id,
+                                              title: nextState3[j].title,
+                                             description: nextState3[j].description,
+                                             ListofComments: nextState3[j].ListofComments});
+                           nextState3.splice (j,1);
+                         }
+                    }
+              }
+              this.setState(this.state.lanes);
+            }
+
+        }
+        this.setState(this.state.lanes);
+    }
+
+    this.setState(this.state.lanes);
     }
 
     const onLaneClick = (laneId) => {
@@ -291,13 +319,16 @@ class App extends React.Component {
      addCard() {
 
        var nextState = this.state.lanes;
+       var idForNewCard=0;
+       for(var j=0;j<nextState.length;j++){
+         idForNewCard=idForNewCard+nextState[j].cards.length
+       }
        for(var i=0;i<nextState.length;i++){
           if(nextState[i].id==idOfLane){
             var nextState2 = this.state.lanes[i].cards;
-            nextState2.push ({id:"Card"+(this.state.lanes[i].cards.length+1+"."+i),
-            title: "Card"+(this.state.lanes[i].cards.length+1+"."+i),
+            nextState2.push ({id:"Card"+(idForNewCard+"."+i),
+            title: "Card"+(idForNewCard+"."+i),
             ListofComments:[]});
-
 
           }
 

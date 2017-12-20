@@ -45,7 +45,7 @@ class App extends React.Component {
         this.NameOfCardChange = this.NameOfCardChange.bind(this);
         this.DescriptionOfCardChange = this.DescriptionOfCardChange.bind(this);
         this.pirntListOfComments = this.printListOfComments.bind(this);
-        this.backToAllBoards = this.backToAllBoards.bind(this);
+
         console.log(this);
     }
 
@@ -116,30 +116,40 @@ class App extends React.Component {
 
   render() {
     const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-        console.log('drag ended')
-        console.log(`cardId: ${cardId}`)
-        console.log(`sourceLaneId: ${sourceLaneId}`)
-        console.log(`targetLaneId: ${targetLaneId}`)
-        var Url = 'http://localhost:9080/myapp/boards/';
-        Url += this.props.match.params.id;
-        Url += '/lanes/';
-        Url += sourceLaneId;
-        Url += '/cards/';
-        Url += cardId;
-        $.ajax(
-           {
-             type: 'PUT',
-             url: Url,
-             headers: {
-               'Authorization': this.props.location.state.authorization,
-               'Content-Type': 'application/json'
-             },
-             data: JSON.stringify({
-               'laneId': targetLaneId
-             })
-           }
-        );
-    }
+      console.log('drag ended')
+      console.log(`cardId: ${cardId}`)
+      console.log(`sourceLaneId: ${sourceLaneId}`)
+      console.log(`targetLaneId: ${targetLaneId}`)
+
+      for(var i=0;i<this.state.lanes.length;i++){
+
+          if(this.state.lanes[i].id==sourceLaneId){
+
+            for(var y=0;y<this.state.lanes.length;y++){
+                  if(this.state.lanes[y].id==targetLaneId){
+
+                     var nextState2 = this.state.lanes[y].cards;
+                     var nextState3 = this.state.lanes[i].cards;
+                     for(var j=0;j<nextState3.length;j++){
+                       if(nextState3[j].id==cardId){
+
+                         nextState2.push ({id: nextState3[j].id,
+                                            title: nextState3[j].title,
+                                           description: nextState3[j].description,
+                                           ListofComments: nextState3[j].ListofComments});
+                         nextState3.splice (j,1);
+                       }
+                  }
+            }
+            this.setState(this.state.lanes);
+          }
+
+      }
+      this.setState(this.state.lanes);
+  }
+
+  this.setState(this.state.lanes);
+  }
 
     const onLaneClick = (laneId) => {
       idOfLane=laneId;
@@ -187,11 +197,8 @@ class App extends React.Component {
       <div className="App-intro">
 
                     <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
-                    <button class="btn btn-default" onClick={this.addList} style={{margin: 5}}>
-                      Add List
-                    </button>
-                    <button class="btn btn-default pull-right" onClick={this.backToAllBoards} style={{margin: 5}}>
-                      AllBoards
+                    <button onClick={this.addList} style={{margin: 5}}>
+                    Add List
                     </button>
                     <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">                      <div class="modal-content">
@@ -290,7 +297,6 @@ class App extends React.Component {
 
           //var urlList = [];  // create a new anchor element
                    // set its href
-                   var comment;
                    var nextState = this.state.lanes;
                    for(var i=0;i<nextState.length;i++){
                       if(nextState[i].id==idOfLane){
@@ -299,7 +305,6 @@ class App extends React.Component {
                          if(nextState[i].cards[j].id==idOfCard){
                            List = nextState[i].cards[j].ListofComments;
                             List.push({comment:this.state.lnk});
-                            comment = this.state.lnk;
                             this.state.lnk = '';
                             this.printListOfComments();
                         }
@@ -311,34 +316,18 @@ class App extends React.Component {
 
 
            this.setState(this.state.lanes);
-           var Url = 'http://localhost:9080/myapp/boards/';
-           Url += this.props.match.params.id;
-           Url += '/lanes/';
-           Url += idOfLane;
-           Url += '/cards/';
-           Url += idOfCard;
-           Url += '/remarks';
-           $.ajax(
-              {
-                type: 'POST',
-                url: Url,
-                headers: {
-                  'Authorization': this.props.location.state.authorization,
-                  'Content-Type': 'application/json'
-                },
-                data: JSON.stringify({
-                  'content': comment
-                })
-              }
-           );
       }
      addCard() {
        var nextState = this.state.lanes;
+       var idForNewCard=0;
+       for(var j=0;j<nextState.length;j++){
+         idForNewCard=idForNewCard+nextState[j].cards.length
+       }
        for(var i=0;i<nextState.length;i++){
           if(nextState[i].id==idOfLane){
             var nextState2 = this.state.lanes[i].cards;
-            nextState2.push ({id:"Card"+(this.state.lanes[i].cards.length+1+"."+i),
-            title: "Card"+(this.state.lanes[i].cards.length+1+"."+i),
+            nextState2.push ({id:"Card"+(idForNewCard+"."+i),
+            title: "Card"+(idForNewCard+"."+i),
             ListofComments:[]});
 
           }
@@ -375,23 +364,6 @@ class App extends React.Component {
            }
         }
          this.setState(this.state.lanes);
-         var Url = 'http://localhost:9080/myapp/boards/';
-         Url += this.props.match.params.id;
-         Url += '/lanes/';
-         Url += idOfLane;
-         $.ajax(
-            {
-              type: 'PUT',
-              url: Url,
-              headers: {
-                'Authorization': this.props.location.state.authorization,
-                'Content-Type': 'application/json'
-              },
-              data: JSON.stringify({
-                'title': this.state.nameOfList,
-              })
-            }
-         );
      }
      SaveChangesOfCard() {
        console.log(`cardName: ${this.state.nameOfCard}`)
@@ -407,26 +379,6 @@ class App extends React.Component {
          }
         }
          this.setState(this.state.lanes);
-         var Url = 'http://localhost:9080/myapp/boards/';
-         Url += this.props.match.params.id;
-         Url += '/lanes/';
-         Url += idOfLane;
-         Url += '/cards/';
-         Url += idOfCard;
-         $.ajax(
-            {
-              type: 'PUT',
-              url: Url,
-              headers: {
-                'Authorization': this.props.location.state.authorization,
-                'Content-Type': 'application/json'
-              },
-              data: JSON.stringify({
-                'title': this.state.nameOfCard,
-                'description': this.state.DescriptionOfCard
-              })
-            }
-         );
      }
      addList() {
         // var nextState = this.state.lanes;
@@ -510,14 +462,6 @@ class App extends React.Component {
          headers: {
            'Authorization': this.props.location.state.authorization
          }
-       })
-     }
-
-     backToAllBoards() {
-       var address = "/allboards";
-       this.props.history.push({
-         pathname: address,
-         state: { authorization: this.props.location.state.authorization }
        })
      }
 }
