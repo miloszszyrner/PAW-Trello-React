@@ -36,23 +36,24 @@ class AllBoards extends React.Component {
       <table class="table table-striped">
         <tbody>
           {this.state.data.map(function(item, key) {
+            if(item.status == 'CREATED') {
                return (
-                  <tr key = {key}>
-                      <td>
-                        <Link
-                          to={{
-                          pathname: `/board/${item.id}`,
-                          state: { authorization: item.authorization }
-                        }}>
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td align='Right'>
-                        <button class="btn btn-danger" onClick={() => _this.deleteBoard(item.id)}>Remove</button>
-                      </td>
-                  </tr>
+                   <tr key = {key}>
+                       <td>
+                         <Link
+                           to={{
+                           pathname: `/board/${item.id}`,
+                           state: { authorization: item.authorization }
+                         }}>
+                           {item.name}
+                         </Link>
+                       </td>
+                       <td align='Right'>
+                         <button class="btn btn-danger" onClick={() => _this.deleteBoard(item.id)}>Remove</button>
+                       </td>
+                   </tr>
                 )
-
+              }
              })}
              <tr>
               <td>
