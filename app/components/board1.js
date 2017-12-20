@@ -45,7 +45,7 @@ class App extends React.Component {
         this.NameOfCardChange = this.NameOfCardChange.bind(this);
         this.DescriptionOfCardChange = this.DescriptionOfCardChange.bind(this);
         this.pirntListOfComments = this.printListOfComments.bind(this);
-
+        this.backToAllBoards = this.backToAllBoards.bind(this);
         console.log(this);
     }
 
@@ -187,8 +187,11 @@ class App extends React.Component {
       <div className="App-intro">
 
                     <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleNameOfListChange} />
-                    <button onClick={this.addList} style={{margin: 5}}>
-                    Add List
+                    <button class="btn btn-default" onClick={this.addList} style={{margin: 5}}>
+                      Add List
+                    </button>
+                    <button class="btn btn-default pull-right" onClick={this.backToAllBoards} style={{margin: 5}}>
+                      AllBoards
                     </button>
                     <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">                      <div class="modal-content">
@@ -507,6 +510,14 @@ class App extends React.Component {
          headers: {
            'Authorization': this.props.location.state.authorization
          }
+       })
+     }
+
+     backToAllBoards() {
+       var address = "/allboards";
+       this.props.history.push({
+         pathname: address,
+         state: { authorization: this.props.location.state.authorization }
        })
      }
 }
