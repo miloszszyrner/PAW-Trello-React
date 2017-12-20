@@ -8,6 +8,7 @@ class Login extends React.Component {
   this.handleUsername = this.handleUsername.bind(this);
   this.handlePassword = this.handlePassword.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleSignUp = this.handleSignUp.bind(this);
   this.state = {
     username: '',
     password: '',
@@ -29,6 +30,7 @@ render() {
     <input  type="text" placeholder="Username" class="form-control input-lg" value={this.state.username} onChange={(e) => this.handleUsername(e)}></input><br/>
     <input  type="password" placeholder="Password" class="form-control input-lg" value={this.state.password} onChange={(e) => this.handlePassword(e)}></input><br/>
     <button className="submit" class="btn btn-lg btn-primary btn-block" type="button" onClick={this.handleSubmit}>Submit</button>
+    <button className="submit" class="btn btn-lg btn-primary btn-block" type="button" onClick={this.handleSignUp}>Sign Up</button>
   </form>
  );
 }
@@ -50,6 +52,14 @@ render() {
       })
     });
  }
+
+ handleSignUp() {
+   var address = "/register";
+   this.props.history.push({
+     pathname: address
+   })
+ }
+
 }
 
 export default Login;
