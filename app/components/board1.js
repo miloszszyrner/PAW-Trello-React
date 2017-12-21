@@ -224,7 +224,7 @@ class App extends React.Component {
     const onCardClick = (cardId,metadata,laneId) => {
       idOfCard=cardId;
       idOfLane=laneId
-      
+
       var nextState = this.state.lanes;
       for(var i=0;i<nextState.length;i++){
         for(var j=0;j<nextState[i].cards.length;j++){
@@ -628,6 +628,20 @@ class App extends React.Component {
       }
 
       removeComment(id) {
+        var nextState = this.state.lanes;
+       for(var i=0;i<nextState.length;i++){
+          for(var y=0;y<nextState[i].cards.length;y++)
+           if(nextState[i].cards[y].id==idOfCard){
+             for(var j=0;j<nextState[i].cards[y].ListofComments.length;j++){
+               if(nextState[i].cards[y].ListofComments[j].id==id){
+                  nextState[i].cards[y].ListofComments.splice (j,1);
+                  this.printListOfComments();
+               }
+
+           }
+           }
+         }
+         this.setState(nextState);
         var Url = 'http://localhost:9080/myapp/boards/';
         Url += this.props.match.params.id;
         Url += '/lanes/';

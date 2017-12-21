@@ -334,6 +334,10 @@ class App extends React.Component {
           }
 
         }
+         //nextState.push();
+         //$('#cardId').val(cardId);
+
+
          
          this.setState(this.state.lanes);
 
