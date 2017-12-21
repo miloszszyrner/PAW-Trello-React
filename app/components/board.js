@@ -330,19 +330,11 @@ class App extends React.Component {
             title: "Card"+(idForNewCard+"."+i),
             ListofComments:[]});
             idOfCard="Card"+(idForNewCard+"."+i);
-            this.state.nameOfCard=idOfCard
-            this.state.DescriptionOfCard=''
-            this.pirntListOfComments();
+
           }
 
         }
-         //nextState.push();
-         //$('#cardId').val(cardId);
-
-
-         $('#cardId').val(idOfCard);
-         $('#myModal2').modal('show');
-
+         
          this.setState(this.state.lanes);
 
      }
