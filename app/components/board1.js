@@ -48,6 +48,7 @@ class App extends React.Component {
         this.pirntListOfComments = this.printListOfComments.bind(this);
         this.backToAllBoards = this.backToAllBoards.bind(this);
         this.changeVisibility = this.changeVisibility.bind(this);
+        this.removeComment = this.removeComment.bind(this);
         console.log(this);
     }
 
@@ -335,15 +336,45 @@ class App extends React.Component {
              if(nextCard[j].id==idOfCard){
                var nextComment = nextCard[j].ListofComments;
               for(var k=0;k<nextComment.length;k++){
-                table = table + "<tr><td>" + nextComment[k].content + "</td></tr>";
+                table = table + "<tr><td>" + nextComment[k].content + "</td><td align='Right'><button class='btn btn-danger' id=" + nextComment[k].id +">remove</button>" + "</td></tr>";
             }
           }
           }
         }
-
      }
+
      table = table + "</tbody></table>";
      document.getElementById("links").innerHTML = table;
+     var _this = this;
+     for(var i=0;i<nextState.length;i++){
+        if(nextState[i].id==idOfLane){
+          var nextCard = nextState[i].cards;
+          for(var j=0;j<nextCard.length;j++){
+           if(nextCard[j].id==idOfCard){
+             var nextComment = nextCard[j].ListofComments;
+             for(var k=0;k<nextComment.length;k++){
+               document.getElementById(nextComment[k].id).onclick = function() {
+                 var Url = 'http://localhost:9080/myapp/boards/';
+                 Url += _this.props.match.params.id;
+                 Url += '/lanes/';
+                 Url += idOfLane;
+                 Url += '/cards/'
+                 Url += idOfCard;
+                 Url += '/remarks/';
+                 Url += this.id;
+                 console.log(Url);
+                 fetch(Url, {
+                   method: 'DELETE',
+                   headers: {
+                     'Authorization': _this.props.location.state.authorization
+                   }
+                 })
+               };
+            }
+          }
+        }
+      }
+    }
    }
 
       addComment() {
@@ -598,6 +629,24 @@ class App extends React.Component {
             }.bind(this)
           }
         );
+      }
+
+      removeComment(id) {
+        var Url = 'http://localhost:9080/myapp/boards/';
+        Url += this.props.match.params.id;
+        Url += '/lanes/';
+        Url += idOfLane;
+        Url += '/cards/'
+        Url += idOfCard;
+        Url += '/remarks/';
+        Url += id;
+        console.log(Url);
+        fetch(Url, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': this.props.location.state.authorization
+          }
+        })
       }
 }
 
