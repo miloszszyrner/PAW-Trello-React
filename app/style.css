@@ -1,0 +1,90 @@
+body {
+  background: white;
+}
+#login, #register{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+text {
+  color: white;
+}
+
+.nav {
+  display: flex;
+}
+
+.nav li {
+  margin-right: 30px;
+}
+/* navbar */
+.navbar-default {
+  background-color: rgb(15, 139, 255);
+  border-color: rgb(15, 139, 255);
+}
+/* Title */
+.navbar-default .navbar-brand {
+  color: rgb(0, 119, 255);
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: rgb(0, 71, 138);
+}
+/* Link */
+.navbar-default .navbar-nav > li > a {
+  color: white;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: white;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: white;
+  background-color: #E7E7E7;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: white;
+  background-color: #D5D5D5;
+}
+/* Caret */
+.navbar-default .navbar-nav > .dropdown > a .caret {
+  border-top-color: rgb(0, 104, 201);
+  border-bottom-color: rgb(0, 104, 201);
+}
+.navbar-default .navbar-nav > .dropdown > a:hover .caret,
+.navbar-default .navbar-nav > .dropdown > a:focus .caret {
+  border-top-color: rgb(0, 71, 138);
+  border-bottom-color: rgb(0, 71, 138);
+}
+.navbar-default .navbar-nav > .open > a .caret,
+.navbar-default .navbar-nav > .open > a:hover .caret,
+.navbar-default .navbar-nav > .open > a:focus .caret {
+  border-top-color: rgb(0, 104, 201);
+  border-bottom-color: rgb(0, 104, 201);
+}
+/* Mobile version */
+.navbar-default .navbar-toggle {
+  border-color: rgb(0, 119, 255);
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: rgb(0, 119, 255);
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: rgb(0, 119, 255);
+}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+      color: rgb(0, 104, 201);
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: rgb(0, 53, 100);
+  }
+}
