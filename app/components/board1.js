@@ -69,6 +69,14 @@ class App extends React.Component {
           id: '', title: '', description: '', ListofComments: []
         }
       }
+      var data3 = {
+        ListofComments:
+        {
+          id: '',
+          content: '',
+          cardId: ''
+        }
+      }
       console.log(data2);
       $.ajax({
         type: 'GET',
@@ -87,6 +95,20 @@ class App extends React.Component {
                      data2.cards.id = result.lanes[i].cards[j].id.toString();
                      data2.cards.title = result.lanes[i].cards[j].title;
                      data2.cards.description = result.lanes[i].cards[j].description;
+                     for(var k = 0; k < result.lanes[i].cards[j].remarks.length; k++) {
+                       data3.ListofComments.id = result.lanes[i].cards[j].remarks[k].id;
+                       data3.ListofComments.content = result.lanes[i].cards[j].remarks[k].content;
+                       data3.ListofComments.cardId = result.lanes[i].cards[j].remarks[k].cardId;
+                       data2.cards.ListofComments.push(data3.ListofComments);
+                       data3 = {
+                         ListofComments:
+                         {
+                           id: '',
+                           content: '',
+                           cardId: ''
+                         }
+                       }
+                     }
                      data.lanes.cards.push(data2.cards);
                      data2 = {
                        cards:
@@ -217,7 +239,7 @@ class App extends React.Component {
         console.log(`laneId: ${laneId}`)
         console.log(`CardId: ${cardId}`)
 
-
+        this.printListOfComments();
     }
 
 
@@ -310,11 +332,10 @@ class App extends React.Component {
           if(nextState[i].id==idOfLane){
             var nextCard = nextState[i].cards;
             for(var j=0;j<nextCard.length;j++){
-
              if(nextCard[j].id==idOfCard){
                var nextComment = nextCard[j].ListofComments;
               for(var k=0;k<nextComment.length;k++){
-                table = table + "<tr><td>" + nextComment[k].comment + "</td></tr>";
+                table = table + "<tr><td>" + nextComment[k].content + "</td></tr>";
             }
           }
           }
@@ -339,7 +360,7 @@ class App extends React.Component {
 
                          if(nextState[i].cards[j].id==idOfCard){
                            List = nextState[i].cards[j].ListofComments;
-                            List.push({comment:this.state.lnk});
+                            List.push({content:this.state.lnk});
                             comment = this.state.lnk;
                             this.state.lnk = '';
                             this.printListOfComments();
