@@ -184,6 +184,7 @@ class App extends React.Component {
         Url += sourceLaneId;
         Url += '/cards/';
          Url += cardId;
+         var _this = this;
          $.ajax(
             {
               type: 'PUT',
@@ -194,7 +195,98 @@ class App extends React.Component {
               },
               data: JSON.stringify({
                 'laneId': targetLaneId
-              })
+              }),
+              success: function() {
+                var Url = "http://localhost:9080/myapp/boards/";
+                Url += _this.props.match.params.id;
+                var data = {
+                  lanes:
+                    {
+                      id: '',
+                      title: '',
+                      cards: [
+                      ]
+                    }
+                }
+                var data2 = {
+                  cards:
+                  {
+                    id: '', title: '', description: '', ListofComments: []
+                  }
+                }
+                var data3 = {
+                  ListofComments:
+                  {
+                    id: '',
+                    content: '',
+                    cardId: ''
+                  }
+                }
+                console.log(data2);
+
+                $.ajax({
+                  type: 'GET',
+                   url: Url,
+                   headers: { 'Authorization': _this.props.location.state.authorization},
+                   success: function(result){
+                       console.log(result);
+                       console.log(data2);
+                       _this.state.lanes = [];
+                       for (var i = 0; i < result.lanes.length; i++) {
+                         if(result.lanes[i].status == "CREATED") {
+                           data.lanes.id = result.lanes[i].id.toString();
+                           data.lanes.title = result.lanes[i].title;
+                           for (var j = 0; j < result.lanes[i].cards.length; j++) {
+                             if(result.lanes[i].cards[j].status == "CREATED") {
+                               data2.cards.id = result.lanes[i].cards[j].id.toString();
+                               data2.cards.title = result.lanes[i].cards[j].title;
+                               data2.cards.description = result.lanes[i].cards[j].description;
+                               for(var k = 0; k < result.lanes[i].cards[j].remarks.length; k++) {
+                                 data3.ListofComments.id = result.lanes[i].cards[j].remarks[k].id;
+                                 data3.ListofComments.content = result.lanes[i].cards[j].remarks[k].content;
+                                 data3.ListofComments.cardId = result.lanes[i].cards[j].remarks[k].cardId;
+                                 data2.cards.ListofComments.push(data3.ListofComments);
+                                 data3 = {
+                                   ListofComments:
+                                   {
+                                     id: '',
+                                     content: '',
+                                     cardId: ''
+                                   }
+                                 }
+                               }
+                               data.lanes.cards.push(data2.cards);
+                               data2 = {
+                                 cards:
+                                 {
+                                   id: '', title: '', description: '', ListofComments: []
+                                 }
+                               }
+                             }
+                           }
+                           _this.state.lanes.push(data.lanes);
+                           data = {
+                             lanes:
+                               {
+                                 id: '',
+                                 title: '',
+                                 cards: [
+                                 ]
+                               }
+                           }
+                         }
+                       }
+                       if(result.visibility == 'PUBLIC') {
+                         status = 'PRIVATE';
+                       }
+                       if(result.visibility == 'PRIVATE') {
+                         status = 'PUBLIC';
+                       }
+                       console.log(_this.state.lanes);
+                       _this.setState({ data: data.lanes });
+                   }.bind(_this)
+                 });
+              }
             }
          );
 
