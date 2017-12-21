@@ -366,12 +366,12 @@ class App extends React.Component {
                  console.log(Url);
                  console.log(document.getElementById("links"));
 
-                 // fetch(Url, {
-                 //   method: 'DELETE',
-                 //   headers: {
-                 //     'Authorization': _this.props.location.state.authorization
-                 //   }
-                 // })
+                 fetch(Url, {
+                   method: 'DELETE',
+                   headers: {
+                     'Authorization': _this.props.location.state.authorization
+                   }
+                 })
                };
             }
           }
